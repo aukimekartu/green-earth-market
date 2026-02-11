@@ -69,7 +69,9 @@ const CartPage = () => {
             <span>{t('cart.total')}:</span>
             <span>€{getTotal().toFixed(2)}</span>
           </div>
-          <Button variant="cta" className="w-full" size="lg">{t('cart.checkout')}</Button>
+          <Button variant="cta" className="w-full" size="lg" asChild>
+            <Link to={`/${lang}/checkout`}>{t('cart.checkout')}</Link>
+          </Button>
           <Button variant="ghost" className="w-full mt-2" asChild>
             <Link to={`/${lang}/products`}>{t('cart.continueShopping')}</Link>
           </Button>
