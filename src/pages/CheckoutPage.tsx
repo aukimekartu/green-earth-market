@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Truck, Building2, MapPin, Check } from 'lucide-react';
+import { ShoppingCart, Truck, Package, MapPin, Check } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -18,11 +18,18 @@ const deliveryOptions = [
     price: 3.99,
   },
   {
-    id: 'pickup',
-    icon: Building2,
-    name: { lt: 'Atsiėmimo punktas', en: 'Pickup point', lv: 'Pakomāts' },
-    desc: { lt: '2–4 darbo dienos', en: '2–4 business days', lv: '2–4 darba dienas' },
-    price: 1.99,
+    id: 'lp-express',
+    icon: Package,
+    name: { lt: 'LP Express paštomatas', en: 'LP Express parcel locker', lv: 'LP Express pakomāts' },
+    desc: { lt: '1–2 darbo dienos', en: '1–2 business days', lv: '1–2 darba dienas' },
+    price: 2.49,
+  },
+  {
+    id: 'omniva',
+    icon: Package,
+    name: { lt: 'Omniva paštomatas', en: 'Omniva parcel locker', lv: 'Omniva pakomāts' },
+    desc: { lt: '1–3 darbo dienos', en: '1–3 business days', lv: '1–3 darba dienas' },
+    price: 2.29,
   },
   {
     id: 'store',
