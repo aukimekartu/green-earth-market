@@ -61,8 +61,11 @@ const CheckoutPage = () => {
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
-  const deliveryPrice = deliveryOptions.find(d => d.id === delivery)?.price ?? 0;
+  const FREE_PARCEL_THRESHOLD = 60;
   const subtotal = getTotal();
+  const isParcelLocker = delivery === 'lp-express' || delivery === 'omniva';
+  const baseDeliveryPrice = deliveryOptions.find(d => d.id === delivery)?.price ?? 0;
+  const deliveryPrice = (isParcelLocker && subtotal >= FREE_PARCEL_THRESHOLD) ? 0 : baseDeliveryPrice;
   const total = subtotal + deliveryPrice;
 
   const validate = (): boolean => {
@@ -175,7 +178,11 @@ const CheckoutPage = () => {
                       <p className="text-xs text-muted-foreground font-sans">{opt.desc[lang]}</p>
                     </div>
                     <span className="font-bold font-sans text-sm">
-                      {opt.price === 0 ? (lang === 'lt' ? 'Nemokamai' : lang === 'en' ? 'Free' : 'Bezmaksas') : `€${opt.price.toFixed(2)}`}
+                      {opt.price === 0
+                        ? (lang === 'lt' ? 'Nemokamai' : lang === 'en' ? 'Free' : 'Bezmaksas')
+                        : (opt.id === 'lp-express' || opt.id === 'omniva') && subtotal >= FREE_PARCEL_THRESHOLD
+                          ? <span className="text-primary">{lang === 'lt' ? 'Nemokamai' : lang === 'en' ? 'Free' : 'Bezmaksas'} <span className="line-through text-muted-foreground font-normal text-xs">€{opt.price.toFixed(2)}</span></span>
+                          : `€${opt.price.toFixed(2)}`}
                     </span>
                   </label>
                 ))}
