@@ -122,6 +122,7 @@ export const translations = {
     orderSummary: { lt: 'Užsakymo santrauka', en: 'Order summary', lv: 'Pasūtījuma kopsavilkums' },
     subtotal: { lt: 'Tarpinė suma', en: 'Subtotal', lv: 'Starpsumma' },
     delivery: { lt: 'Pristatymas', en: 'Delivery', lv: 'Piegāde' },
+    paymentMethod: { lt: 'Mokėjimo būdas', en: 'Payment method', lv: 'Maksājuma veids' },
     placeOrder: { lt: 'Pateikti užsakymą', en: 'Place order', lv: 'Iesniegt pasūtījumu' },
     required: { lt: 'Privalomas laukas', en: 'Required field', lv: 'Obligāts lauks' },
     invalidEmail: { lt: 'Neteisingas el. paštas', en: 'Invalid email', lv: 'Nederīgs e-pasts' },
