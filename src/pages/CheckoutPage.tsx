@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from '@/hooks/use-toast';
+import TerminalPicker from '@/components/TerminalPicker';
+import type { Terminal } from '@/data/lpExpressTerminals';
 
 const deliveryOptions = [
   {
@@ -55,6 +57,7 @@ const CheckoutPage = () => {
   const { items, getProduct, getTotal, clearCart } = useCart();
   const [delivery, setDelivery] = useState('courier');
   const [submitted, setSubmitted] = useState(false);
+  const [selectedTerminal, setSelectedTerminal] = useState<Terminal | null>(null);
   const [form, setForm] = useState<FormData>({
     firstName: '', lastName: '', email: '', phone: '',
     address: '', city: '', postalCode: '',
@@ -79,6 +82,14 @@ const CheckoutPage = () => {
       if (!form.address.trim()) e.address = req;
       if (!form.city.trim()) e.city = req;
       if (!form.postalCode.trim()) e.postalCode = req;
+    }
+    if (delivery === 'lp-express' && !selectedTerminal) {
+      toast({
+        title: lang === 'lt' ? 'Pasirinkite paštomatą' : lang === 'en' ? 'Select a parcel locker' : 'Izvēlieties pakomātu',
+        variant: 'destructive',
+      });
+      setErrors(e);
+      return false;
     }
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -187,6 +198,13 @@ const CheckoutPage = () => {
                   </label>
                 ))}
               </RadioGroup>
+
+              {delivery === 'lp-express' && (
+                <TerminalPicker
+                  selectedTerminal={selectedTerminal}
+                  onSelect={setSelectedTerminal}
+                />
+              )}
             </section>
 
             {/* Address (only for courier) */}
