@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Truck, Package, MapPin, Check } from 'lucide-react';
+import { ShoppingCart, Truck, Package, MapPin, Check, CreditCard, Building, Wallet } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -42,6 +42,27 @@ const deliveryOptions = [
   },
 ];
 
+const paymentOptions = [
+  {
+    id: 'paysera',
+    icon: Wallet,
+    name: { lt: 'Paysera', en: 'Paysera', lv: 'Paysera' },
+    desc: { lt: 'Bankinis pavedimas, kortelė', en: 'Bank transfer, card', lv: 'Bankas pārskaitījums, karte' },
+  },
+  {
+    id: 'montonio',
+    icon: Building,
+    name: { lt: 'Montonio', en: 'Montonio', lv: 'Montonio' },
+    desc: { lt: 'Bankinis mokėjimas, pirkimas išsimokėtinai', en: 'Bank payment, buy now pay later', lv: 'Bankas maksājums, pirkt tagad maksāt vēlāk' },
+  },
+  {
+    id: 'makecommerce',
+    icon: CreditCard,
+    name: { lt: 'MakeCommerce', en: 'MakeCommerce', lv: 'MakeCommerce' },
+    desc: { lt: 'Kortelė, bankinis pavedimas', en: 'Card, bank transfer', lv: 'Karte, bankas pārskaitījums' },
+  },
+];
+
 interface FormData {
   firstName: string;
   lastName: string;
@@ -56,6 +77,7 @@ const CheckoutPage = () => {
   const { lang, t } = useLanguage();
   const { items, getProduct, getTotal, clearCart } = useCart();
   const [delivery, setDelivery] = useState('courier');
+  const [payment, setPayment] = useState('paysera');
   const [submitted, setSubmitted] = useState(false);
   const [selectedTerminal, setSelectedTerminal] = useState<Terminal | null>(null);
   const [form, setForm] = useState<FormData>({
@@ -232,6 +254,30 @@ const CheckoutPage = () => {
                 </div>
               </section>
             )}
+
+            {/* Payment method */}
+            <section className="bg-card rounded-xl border border-border p-6">
+              <h2 className="text-2xl text-foreground mb-5">{t('checkout.paymentMethod')}</h2>
+              <RadioGroup value={payment} onValueChange={setPayment} className="space-y-3">
+                {paymentOptions.map(opt => (
+                  <label
+                    key={opt.id}
+                    className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      payment === opt.id ? 'border-primary bg-secondary/50' : 'border-border hover:border-primary/30'
+                    }`}
+                  >
+                    <RadioGroupItem value={opt.id} />
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                      <opt.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-sm font-sans">{opt.name[lang]}</p>
+                      <p className="text-xs text-muted-foreground font-sans">{opt.desc[lang]}</p>
+                    </div>
+                  </label>
+                ))}
+              </RadioGroup>
+            </section>
           </div>
 
           {/* Right: order summary */}
