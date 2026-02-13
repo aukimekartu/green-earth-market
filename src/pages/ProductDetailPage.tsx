@@ -165,10 +165,7 @@ const ProductDetailPage = () => {
                   {product.certificates.map(cert => {
                     const logo = certificateLogos[cert];
                     return logo ? (
-                      <div key={cert} className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2">
-                        <img src={logo.src} alt={logo.label} className="w-10 h-10 object-contain" />
-                        <span className="text-sm font-sans font-medium">{logo.label}</span>
-                      </div>
+                      <img key={cert} src={logo.src} alt={logo.label} className="h-12 object-contain" />
                     ) : (
                       <span key={cert} className="px-3 py-1 bg-secondary rounded-full text-sm font-sans font-medium">{cert}</span>
                     );
