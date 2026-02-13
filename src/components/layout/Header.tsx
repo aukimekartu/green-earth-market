@@ -41,7 +41,7 @@ export function Header() {
           {/* Logo */}
           <Link to={`/${lang}`} className="shrink-0">
             <span className="font-handwritten text-2xl md:text-3xl font-bold text-primary">
-              Bio<span className="text-accent">Žaluma</span>
+              Natura<span className="text-accent">Vida</span>
             </span>
           </Link>
 

@@ -4,28 +4,28 @@ const content = {
   lt: {
     title: 'Privatumo politika',
     sections: [
-      { heading: 'Asmens duomenų tvarkymas', text: 'BioŽaluma gerbia jūsų privatumą ir įsipareigoja saugoti jūsų asmens duomenis. Ši privatumo politika paaiškina, kaip renkame, naudojame ir saugome jūsų informaciją.' },
+      { heading: 'Asmens duomenų tvarkymas', text: 'NaturaVida gerbia jūsų privatumą ir įsipareigoja saugoti jūsų asmens duomenis. Ši privatumo politika paaiškina, kaip renkame, naudojame ir saugome jūsų informaciją.' },
       { heading: 'Slapukai', text: 'Mūsų svetainė naudoja slapukus, kad pagerintų jūsų naršymo patirtį. Slapukai – tai maži tekstiniai failai, saugomi jūsų naršyklėje. Naudojame būtinus slapukus (pvz., kalbos nustatymai) ir analitinius slapukus.' },
       { heading: 'Jūsų teisės', text: 'Pagal BDAR turite teisę prašyti prieigos prie savo duomenų, juos ištaisyti ar ištrinti. Taip pat galite atsisakyti duomenų tvarkymo ar apriboti jų naudojimą.' },
-      { heading: 'Kontaktai', text: 'Jei turite klausimų dėl privatumo, susisiekite su mumis el. paštu: info@biozaluma.lt' },
+      { heading: 'Kontaktai', text: 'Jei turite klausimų dėl privatumo, susisiekite su mumis el. paštu: info@naturavida.lt' },
     ],
   },
   en: {
     title: 'Privacy Policy',
     sections: [
-      { heading: 'Personal Data Processing', text: 'BioŽaluma respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use and store your information.' },
+      { heading: 'Personal Data Processing', text: 'NaturaVida respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use and store your information.' },
       { heading: 'Cookies', text: 'Our website uses cookies to improve your browsing experience. Cookies are small text files stored in your browser. We use essential cookies (e.g., language settings) and analytical cookies.' },
       { heading: 'Your Rights', text: 'Under GDPR you have the right to request access to your data, rectification or deletion. You can also object to processing or restrict the use of your data.' },
-      { heading: 'Contact', text: 'If you have questions about privacy, please contact us at: info@biozaluma.lt' },
+      { heading: 'Contact', text: 'If you have questions about privacy, please contact us at: info@naturavida.lt' },
     ],
   },
   lv: {
     title: 'Privātuma politika',
     sections: [
-      { heading: 'Personas datu apstrāde', text: 'BioŽaluma ciena jūsu privātumu un apņemas aizsargāt jūsu personas datus. Šī privātuma politika izskaidro, kā mēs apkopojam, izmantojam un glabājam jūsu informāciju.' },
+      { heading: 'Personas datu apstrāde', text: 'NaturaVida ciena jūsu privātumu un apņemas aizsargāt jūsu personas datus. Šī privātuma politika izskaidro, kā mēs apkopojam, izmantojam un glabājam jūsu informāciju.' },
       { heading: 'Sīkdatnes', text: 'Mūsu vietne izmanto sīkdatnes, lai uzlabotu jūsu pārlūkošanas pieredzi. Sīkdatnes ir nelieli teksta faili, kas tiek saglabāti jūsu pārlūkprogrammā.' },
       { heading: 'Jūsu tiesības', text: 'Saskaņā ar GDPR jums ir tiesības pieprasīt piekļuvi saviem datiem, tos labot vai dzēst.' },
-      { heading: 'Kontakti', text: 'Ja jums ir jautājumi par privātumu, sazinieties ar mums: info@biozaluma.lt' },
+      { heading: 'Kontakti', text: 'Ja jums ir jautājumi par privātumu, sazinieties ar mums: info@naturavida.lt' },
     ],
   },
 };

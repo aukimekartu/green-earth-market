@@ -38,7 +38,7 @@ export function Footer() {
             {/* Brand */}
             <div>
               <Link to={`/${lang}`} className="font-handwritten text-3xl font-bold">
-                Bio<span className="text-accent">Žaluma</span>
+                Natura<span className="text-accent">Vida</span>
               </Link>
               <div className="flex gap-3 mt-4">
                 <a href="#" className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors" aria-label="Facebook">
