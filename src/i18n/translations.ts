@@ -78,7 +78,7 @@ export const translations = {
     contactUs: { lt: 'Susisiekite', en: 'Contact us', lv: 'Sazinies ar mums' },
     delivery: { lt: 'Pristatymas', en: 'Delivery', lv: 'Piegāde' },
     emailPlaceholder: { lt: 'Jūsų el. paštas', en: 'Your email', lv: 'Jūsu e-pasts' },
-    allRights: { lt: '© 2024 BioŽaluma. Visos teisės saugomos.', en: '© 2024 BioŽaluma. All rights reserved.', lv: '© 2024 BioŽaluma. Visas tiesības aizsargātas.' },
+    allRights: { lt: '© 2024 NaturaVida. Visos teisės saugomos.', en: '© 2024 NaturaVida. All rights reserved.', lv: '© 2024 NaturaVida. Visas tiesības aizsargātas.' },
     about: { lt: 'Apie mus', en: 'About us', lv: 'Par mums' },
   },
   cookie: {
