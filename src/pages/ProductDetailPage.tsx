@@ -8,6 +8,13 @@ import { products } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import euBioLogo from '@/assets/certificates/eu-bio.png';
+import demeterLogo from '@/assets/certificates/demeter.png';
+
+const certificateLogos: Record<string, { src: string; label: string }> = {
+  'EU Bio': { src: euBioLogo, label: '(ES) ekologiškų maisto produktų ženklas' },
+  'Demeter': { src: demeterLogo, label: 'Demeter' },
+};
 
 const ProductDetailPage = () => {
   const { slug } = useParams();
@@ -154,20 +161,28 @@ const ProductDetailPage = () => {
               </div>
               <div>
                 <h3 className="text-xl text-foreground mb-2">{t('product.qualityMarks')}</h3>
-                <div className="flex gap-2 flex-wrap">
-                  {product.certificates.map(cert => (
-                    <span key={cert} className="px-3 py-1 bg-secondary rounded-full text-sm font-sans font-medium">{cert}</span>
-                  ))}
+                <div className="flex gap-4 flex-wrap items-center">
+                  {product.certificates.map(cert => {
+                    const logo = certificateLogos[cert];
+                    return logo ? (
+                      <div key={cert} className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2">
+                        <img src={logo.src} alt={logo.label} className="w-10 h-10 object-contain" />
+                        <span className="text-sm font-sans font-medium">{logo.label}</span>
+                      </div>
+                    ) : (
+                      <span key={cert} className="px-3 py-1 bg-secondary rounded-full text-sm font-sans font-medium">{cert}</span>
+                    );
+                  })}
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-sans text-sm">
                 <div>
-                  <span className="text-muted-foreground">{t('product.packaging')}:</span>
-                  <span className="ml-2 text-foreground">{product.packaging[lang]}</span>
-                </div>
-                <div>
                   <span className="text-muted-foreground">{t('product.origin')}:</span>
                   <span className="ml-2 text-foreground">{product.origin[lang]}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">{t('product.packaging')}:</span>
+                  <span className="ml-2 text-foreground">{product.packaging[lang]}</span>
                 </div>
                 <div>
                   <span className="text-muted-foreground">{t('product.rawMaterialOrigin')}:</span>
