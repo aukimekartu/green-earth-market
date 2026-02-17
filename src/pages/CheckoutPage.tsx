@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Truck, Package, MapPin, Check, CreditCard, Building, Wallet } from 'lucide-react';
+import { ShoppingCart, Truck, Package, MapPin, Check, Wallet } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -49,18 +49,6 @@ const paymentOptions = [
     name: { lt: 'Paysera', en: 'Paysera', lv: 'Paysera' },
     desc: { lt: 'Bankinis pavedimas, kortelė', en: 'Bank transfer, card', lv: 'Bankas pārskaitījums, karte' },
   },
-  {
-    id: 'montonio',
-    icon: Building,
-    name: { lt: 'Montonio', en: 'Montonio', lv: 'Montonio' },
-    desc: { lt: 'Bankinis mokėjimas, pirkimas išsimokėtinai', en: 'Bank payment, buy now pay later', lv: 'Bankas maksājums, pirkt tagad maksāt vēlāk' },
-  },
-  {
-    id: 'makecommerce',
-    icon: CreditCard,
-    name: { lt: 'MakeCommerce', en: 'MakeCommerce', lv: 'MakeCommerce' },
-    desc: { lt: 'Kortelė, bankinis pavedimas', en: 'Card, bank transfer', lv: 'Karte, bankas pārskaitījums' },
-  },
 ];
 
 interface FormData {
@@ -105,7 +93,7 @@ const CheckoutPage = () => {
       if (!form.city.trim()) e.city = req;
       if (!form.postalCode.trim()) e.postalCode = req;
     }
-    if (delivery === 'lp-express' && !selectedTerminal) {
+    if ((delivery === 'lp-express' || delivery === 'omniva') && !selectedTerminal) {
       toast({
         title: lang === 'lt' ? 'Pasirinkite paštomatą' : lang === 'en' ? 'Select a parcel locker' : 'Izvēlieties pakomātu',
         variant: 'destructive',
@@ -221,7 +209,7 @@ const CheckoutPage = () => {
                 ))}
               </RadioGroup>
 
-              {delivery === 'lp-express' && (
+              {(delivery === 'lp-express' || delivery === 'omniva') && (
                 <TerminalPicker
                   selectedTerminal={selectedTerminal}
                   onSelect={setSelectedTerminal}

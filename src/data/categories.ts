@@ -1,6 +1,8 @@
 import {
   Droplets, Coffee, Sparkles, FlaskConical, Leaf, Droplet,
   Sun, Wheat, UtensilsCrossed, Apple, Cookie, Cake,
+  Beaker, Archive, Cherry, Carrot, Sprout, Bean,
+  Hand, Smile, Scissors,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -25,11 +27,27 @@ export const foodCategories: Category[] = [
   { id: 'vaisiai', slug: 'vaisiai', name: { lt: 'Vaisiai', en: 'Fruits', lv: 'Augļi' }, icon: Apple },
   { id: 'uzkandžiai', slug: 'uzkandziai', name: { lt: 'Užkandžiai', en: 'Snacks', lv: 'Uzkodas' }, icon: Cookie },
   { id: 'saldumynai', slug: 'saldumynai', name: { lt: 'Saldumynai', en: 'Sweets', lv: 'Saldumi' }, icon: Cake },
+  { id: 'priedai-ruosiniai', slug: 'priedai-ruosiniai', name: { lt: 'Priedai, ruošiniai', en: 'Additives, preparations', lv: 'Piedevas, sagataves' }, icon: Beaker },
+  { id: 'konservuoti', slug: 'konservuoti', name: { lt: 'Konservuoti', en: 'Preserved', lv: 'Konservēti' }, icon: Archive },
+];
+
+export const sowingCategories: Category[] = [
+  { id: 'sejai-vaisiai', slug: 'sejai-vaisiai', name: { lt: 'Vaisiai', en: 'Fruits', lv: 'Augļi' }, icon: Cherry },
+  { id: 'sejai-saknys', slug: 'sejai-saknys', name: { lt: 'Šaknys', en: 'Roots', lv: 'Saknes' }, icon: Carrot },
+  { id: 'sejai-lapai', slug: 'sejai-lapai', name: { lt: 'Lapai', en: 'Leaves', lv: 'Lapas' }, icon: Sprout },
+  { id: 'sejai-ankstys', slug: 'sejai-ankstys', name: { lt: 'Ankštys', en: 'Pods', lv: 'Pākstis' }, icon: Bean },
+];
+
+export const cosmeticsCategories: Category[] = [
+  { id: 'kosmetika-kunui', slug: 'kosmetika-kunui', name: { lt: 'Kūnui', en: 'Body', lv: 'Ķermenim' }, icon: Hand },
+  { id: 'kosmetika-veidui', slug: 'kosmetika-veidui', name: { lt: 'Veidui', en: 'Face', lv: 'Sejai' }, icon: Smile },
+  { id: 'kosmetika-plaukams', slug: 'kosmetika-plaukams', name: { lt: 'Plaukams', en: 'Hair', lv: 'Matiem' }, icon: Scissors },
 ];
 
 export const mainNavCategories = [
   { id: 'maistas', slug: 'maistas', name: { lt: 'Maistas', en: 'Food', lv: 'Ēdiens' } },
   { id: 'sveikatai', slug: 'sveikatai', name: { lt: 'Sveikatai', en: 'Health', lv: 'Veselība' } },
+  { id: 'kosmetika', slug: 'kosmetika', name: { lt: 'Kosmetika', en: 'Cosmetics', lv: 'Kosmētika' } },
   { id: 'buiciai', slug: 'buiciai', name: { lt: 'Buičiai', en: 'Lifestyle', lv: 'Mājsaimniecība' } },
   { id: 'sejai', slug: 'sejai', name: { lt: 'Sėjai', en: 'Sowing', lv: 'Sēšana' } },
   { id: 'namams', slug: 'namams', name: { lt: 'Namams', en: 'Home', lv: 'Mājas' } },

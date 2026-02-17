@@ -6,6 +6,10 @@ import { foodCategories } from '@/data/categories';
 import { products } from '@/data/products';
 import { CategoryTile } from '@/components/CategoryTile';
 import { ProductCard } from '@/components/ProductCard';
+import euBioLogo from '@/assets/certificates/eu-bio-benefit.png';
+import demeterLogo from '@/assets/certificates/demeter-benefit.png';
+import ecocertLogo from '@/assets/certificates/ecocert.png';
+import bdihLogo from '@/assets/certificates/bdih.png';
 
 const Index = () => {
   const { lang, t } = useLanguage();
@@ -13,9 +17,22 @@ const Index = () => {
   const featuredCategories = foodCategories.slice(0, 6);
 
   const benefits = [
-    { icon: Leaf, title: { lt: '100% ekologiška', en: '100% organic', lv: '100% bioloģisks' }, desc: { lt: 'Sertifikuoti produktai', en: 'Certified products', lv: 'Sertificēti produkti' } },
-    { icon: ShieldCheck, title: { lt: 'Patikima kokybė', en: 'Trusted quality', lv: 'Uzticama kvalitāte' }, desc: { lt: 'EU Bio standartai', en: 'EU Bio standards', lv: 'EU Bio standarti' } },
-    { icon: Truck, title: { lt: 'Greitas pristatymas', en: 'Fast delivery', lv: 'Ātra piegāde' }, desc: { lt: 'Visoje Lietuvoje', en: 'Across all Lithuania', lv: 'Visā Lietuvā' } },
+    {
+      icon: Leaf,
+      title: { lt: 'Ekologiška, natūralu', en: 'Organic, natural', lv: 'Ekoloģisks, dabīgs' },
+      desc: { lt: 'Sertifikuoti produktai', en: 'Certified products', lv: 'Sertificēti produkti' },
+    },
+    {
+      icon: ShieldCheck,
+      title: { lt: 'Patikima kokybė', en: 'Trusted quality', lv: 'Uzticama kvalitāte' },
+      desc: { lt: 'EU Bio standartai', en: 'EU Bio standards', lv: 'EU Bio standarti' },
+      logos: true,
+    },
+    {
+      icon: Truck,
+      title: { lt: 'Greitas pristatymas', en: 'Fast delivery', lv: 'Ātra piegāde' },
+      desc: { lt: '1-2 darbo dienos visoje Lietuvoje', en: '1-2 business days across Lithuania', lv: '1-2 darba dienas visā Lietuvā' },
+    },
   ];
 
   return (
@@ -52,9 +69,18 @@ const Index = () => {
                 <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center shrink-0">
                   <b.icon className="w-6 h-6 text-primary" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="text-lg text-foreground">{b.title[lang]}</h3>
-                  <p className="text-sm text-muted-foreground font-sans">{b.desc[lang]}</p>
+                  {b.logos ? (
+                    <div className="flex items-center gap-2 mt-1">
+                      <img src={euBioLogo} alt="EU Bio" className="h-7 object-contain" />
+                      <img src={demeterLogo} alt="Demeter" className="h-7 object-contain" />
+                      <img src={ecocertLogo} alt="Ecocert" className="h-7 object-contain" />
+                      <img src={bdihLogo} alt="BDIH" className="h-7 object-contain" />
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-sans">{b.desc[lang]}</p>
+                  )}
                 </div>
               </div>
             ))}
