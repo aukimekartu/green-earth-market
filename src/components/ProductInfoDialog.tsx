@@ -26,15 +26,15 @@ export function ProductInfoDialog({ product }: Props) {
           className="inline-flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors"
           aria-label={t('product.productInfo')}
         >
-          <span className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center shrink-0">
+          <span className="w-4 h-4 rounded-full border-[2.5px] border-primary flex items-center justify-center shrink-0">
             <Info className="w-2.5 h-2.5" />
           </span>
-          <span className="font-sans">{lang === 'lt' ? 'Informacija' : lang === 'en' ? 'Info' : 'Informācija'}</span>
+          <span className="font-sans">{lang === 'lt' ? 'Plačiau' : lang === 'en' ? 'More' : 'Vairāk'}</span>
         </button>
       </DialogTrigger>
       <DialogContent className="bg-card max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl text-foreground">{product.name[lang]}</DialogTitle>
+          <DialogTitle className="text-xl text-foreground">{t('product.description')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-5 mt-2">
