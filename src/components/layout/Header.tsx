@@ -7,6 +7,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { mainNavCategories } from '@/data/categories';
 import { useNavigate } from 'react-router-dom';
+import { TopBanner } from '@/components/TopBanner';
 
 export function Header() {
   const { lang, t } = useLanguage();
@@ -25,7 +26,9 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-card/95 backdrop-blur border-b border-border">
+    <header className="sticky top-0 z-40">
+      <TopBanner />
+      <div className="bg-card/95 backdrop-blur border-b border-border">
       {/* Top bar with search and actions */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 gap-4">
@@ -146,6 +149,7 @@ export function Header() {
           </div>
         </nav>
       )}
+      </div>
     </header>
   );
 }

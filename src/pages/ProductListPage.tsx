@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { products } from '@/data/products';
-import { foodCategories } from '@/data/categories';
+import { foodCategories, sowingCategories, cosmeticsCategories } from '@/data/categories';
 import { ProductCard } from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -22,7 +22,8 @@ const ProductListPage = () => {
   const [allergenFree, setAllergenFree] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const category = foodCategories.find(c => c.slug === categorySlug);
+  const allCategories = [...foodCategories, ...sowingCategories, ...cosmeticsCategories];
+  const category = allCategories.find(c => c.slug === categorySlug);
   const title = category ? category.name[lang] : searchQuery
     ? `"${searchQuery}"`
     : lang === 'lt' ? 'Visi produktai' : lang === 'en' ? 'All products' : 'Visi produkti';
