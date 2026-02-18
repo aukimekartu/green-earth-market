@@ -4,6 +4,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Button } from '@/components/ui/button';
+import { ProductInfoDialog } from '@/components/ProductInfoDialog';
 import type { Product } from '@/data/products';
 import { cn } from '@/lib/utils';
 
@@ -48,6 +49,9 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name[lang]}
           </h3>
         </Link>
+
+        <ProductInfoDialog product={product} />
+
         <p className="text-xs text-muted-foreground">
           {product.status === 'inStock' ? t('product.inStock') : t('product.shipsFast')}
         </p>
