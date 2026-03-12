@@ -103,6 +103,8 @@ const ProductListPage = () => {
                   <SelectItem value="nameAZ">{t('filters.nameAZ')}</SelectItem>
                   <SelectItem value="priceAsc">{t('filters.priceAsc')}</SelectItem>
                   <SelectItem value="priceDesc">{t('filters.priceDesc')}</SelectItem>
+                  <SelectItem value="brandCountry">{t('filters.brandCountry')}</SelectItem>
+                  <SelectItem value="manufacturer">{t('filters.manufacturer')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

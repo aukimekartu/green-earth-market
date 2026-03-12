@@ -54,6 +54,8 @@ export const translations = {
     priceAsc: { lt: 'Kaina: pigiausi', en: 'Price: Low to High', lv: 'Cena: No zemākās' },
     priceDesc: { lt: 'Kaina: brangiausi', en: 'Price: High to Low', lv: 'Cena: No augstākās' },
     newest: { lt: 'Naujausi', en: 'Newest', lv: 'Jaunākie' },
+    brandCountry: { lt: 'Prekės ženklo šalis', en: 'Brand country', lv: 'Zīmola valsts' },
+    manufacturer: { lt: 'Gamintojas', en: 'Manufacturer', lv: 'Ražotājs' },
     allergenFree: { lt: 'Be alergenų', en: 'Allergen free', lv: 'Bez alergēniem' },
     priceRange: { lt: 'Kaina', en: 'Price', lv: 'Cena' },
     country: { lt: 'Kilmės šalis', en: 'Country', lv: 'Valsts' },
