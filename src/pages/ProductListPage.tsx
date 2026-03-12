@@ -44,6 +44,8 @@ const ProductListPage = () => {
       case 'nameAZ': result.sort((a, b) => a.name[lang].localeCompare(b.name[lang])); break;
       case 'priceAsc': result.sort((a, b) => a.price - b.price); break;
       case 'priceDesc': result.sort((a, b) => b.price - a.price); break;
+      case 'brandCountry': result.sort((a, b) => a.rawMaterialOrigin[lang].localeCompare(b.rawMaterialOrigin[lang])); break;
+      case 'manufacturer': result.sort((a, b) => a.manufacturer.localeCompare(b.manufacturer)); break;
       default: break;
     }
     return result;
