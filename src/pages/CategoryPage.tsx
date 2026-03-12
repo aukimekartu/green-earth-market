@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { foodCategories, sowingCategories, cosmeticsCategories, mainNavCategories } from '@/data/categories';
+import { foodCategories, sowingCategories, cosmeticsCategories, lifestyleCategories, homeCategories, mainNavCategories } from '@/data/categories';
 import { CategoryTile } from '@/components/CategoryTile';
 
 const categoryMap: Record<string, typeof foodCategories> = {
   maistas: foodCategories,
   sejai: sowingCategories,
   kosmetika: cosmeticsCategories,
+  buiciai: lifestyleCategories,
+  namams: homeCategories,
 };
 
 const CategoryPage = () => {

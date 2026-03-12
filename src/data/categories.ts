@@ -46,6 +46,18 @@ export const cosmeticsCategories: Category[] = [
   { id: 'kosmetika-plaukams', slug: 'kosmetika-plaukams', name: { lt: 'Plaukams', en: 'Hair', lv: 'Matiem' }, icon: Scissors },
 ];
 
+export const lifestyleCategories: Category[] = [
+  { id: 'skalbimo-priemones', slug: 'skalbimo-priemones', name: { lt: 'Skalbimo priemonės', en: 'Laundry detergents', lv: 'Mazgāšanas līdzekļi' }, icon: WashingMachine },
+  { id: 'valikliai', slug: 'valikliai', name: { lt: 'Valikliai', en: 'Cleaners', lv: 'Tīrīšanas līdzekļi' }, icon: SprayCan },
+  { id: 'indu-plovimo', slug: 'indu-plovimo', name: { lt: 'Indų plovimo priemonės', en: 'Dishwashing products', lv: 'Trauku mazgāšanas līdzekļi' }, icon: GlassWater },
+  { id: 'namu-apyvoka', slug: 'namu-apyvoka', name: { lt: 'Namų apyvokos reikmenys', en: 'Household supplies', lv: 'Saimniecības preces' }, icon: Brush },
+];
+
+export const homeCategories: Category[] = [
+  { id: 'vandens-gryninimas', slug: 'vandens-gryninimas', name: { lt: 'Vandens gryninimui', en: 'Water purification', lv: 'Ūdens attīrīšanai' }, icon: Droplets },
+  { id: 'silko-patalai', slug: 'silko-patalai', name: { lt: 'Šilko patalai', en: 'Silk bedding', lv: 'Zīda gultas veļa' }, icon: BedDouble },
+];
+
 export const mainNavCategories = [
   { id: 'maistas', slug: 'maistas', name: { lt: 'Maistas', en: 'Food', lv: 'Ēdiens' } },
   { id: 'sveikatai', slug: 'sveikatai', name: { lt: 'Sveikatai', en: 'Health', lv: 'Veselība' } },
