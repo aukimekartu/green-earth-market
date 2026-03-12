@@ -3,6 +3,8 @@ import {
   Sun, Wheat, UtensilsCrossed, Apple, Cookie, Cake,
   Beaker, Archive, Cherry, Carrot, Sprout, Bean,
   Hand, Smile, Scissors,
+  WashingMachine, SprayCan, GlassWater, Home as HomeIcon, Brush,
+  Droplet as DropletIcon, BedDouble,
   type LucideIcon,
 } from 'lucide-react';
 
