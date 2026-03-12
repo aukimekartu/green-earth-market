@@ -3,6 +3,7 @@ import {
   Sun, Wheat, UtensilsCrossed, Apple, Cookie, Cake,
   Beaker, Archive, Cherry, Carrot, Sprout, Bean,
   Hand, Smile, Scissors,
+  WashingMachine, SprayCan, GlassWater, Brush, BedDouble,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -42,6 +43,18 @@ export const cosmeticsCategories: Category[] = [
   { id: 'kosmetika-kunui', slug: 'kosmetika-kunui', name: { lt: 'Kūnui', en: 'Body', lv: 'Ķermenim' }, icon: Hand },
   { id: 'kosmetika-veidui', slug: 'kosmetika-veidui', name: { lt: 'Veidui', en: 'Face', lv: 'Sejai' }, icon: Smile },
   { id: 'kosmetika-plaukams', slug: 'kosmetika-plaukams', name: { lt: 'Plaukams', en: 'Hair', lv: 'Matiem' }, icon: Scissors },
+];
+
+export const lifestyleCategories: Category[] = [
+  { id: 'skalbimo-priemones', slug: 'skalbimo-priemones', name: { lt: 'Skalbimo priemonės', en: 'Laundry detergents', lv: 'Mazgāšanas līdzekļi' }, icon: WashingMachine },
+  { id: 'valikliai', slug: 'valikliai', name: { lt: 'Valikliai', en: 'Cleaners', lv: 'Tīrīšanas līdzekļi' }, icon: SprayCan },
+  { id: 'indu-plovimo', slug: 'indu-plovimo', name: { lt: 'Indų plovimo priemonės', en: 'Dishwashing products', lv: 'Trauku mazgāšanas līdzekļi' }, icon: GlassWater },
+  { id: 'namu-apyvoka', slug: 'namu-apyvoka', name: { lt: 'Namų apyvokos reikmenys', en: 'Household supplies', lv: 'Saimniecības preces' }, icon: Brush },
+];
+
+export const homeCategories: Category[] = [
+  { id: 'vandens-gryninimas', slug: 'vandens-gryninimas', name: { lt: 'Vandens gryninimui', en: 'Water purification', lv: 'Ūdens attīrīšanai' }, icon: Droplets },
+  { id: 'silko-patalai', slug: 'silko-patalai', name: { lt: 'Šilko patalai', en: 'Silk bedding', lv: 'Zīda gultas veļa' }, icon: BedDouble },
 ];
 
 export const mainNavCategories = [
