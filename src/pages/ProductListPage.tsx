@@ -44,6 +44,8 @@ const ProductListPage = () => {
       case 'nameAZ': result.sort((a, b) => a.name[lang].localeCompare(b.name[lang])); break;
       case 'priceAsc': result.sort((a, b) => a.price - b.price); break;
       case 'priceDesc': result.sort((a, b) => b.price - a.price); break;
+      case 'brandCountry': result.sort((a, b) => a.rawMaterialOrigin[lang].localeCompare(b.rawMaterialOrigin[lang])); break;
+      case 'manufacturer': result.sort((a, b) => a.manufacturer.localeCompare(b.manufacturer)); break;
       default: break;
     }
     return result;
@@ -101,6 +103,8 @@ const ProductListPage = () => {
                   <SelectItem value="nameAZ">{t('filters.nameAZ')}</SelectItem>
                   <SelectItem value="priceAsc">{t('filters.priceAsc')}</SelectItem>
                   <SelectItem value="priceDesc">{t('filters.priceDesc')}</SelectItem>
+                  <SelectItem value="brandCountry">{t('filters.brandCountry')}</SelectItem>
+                  <SelectItem value="manufacturer">{t('filters.manufacturer')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
