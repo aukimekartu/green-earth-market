@@ -72,11 +72,11 @@ const Index = () => {
                 <div className="flex-1">
                   <h3 className="text-lg text-foreground">{b.title[lang]}</h3>
                   {b.logos ? (
-                    <div className="flex items-center gap-2 mt-1">
-                      <img src={euBioLogo} alt="EU Bio" className="h-7 object-contain" />
-                      <img src={demeterLogo} alt="Demeter" className="h-7 object-contain" />
-                      <img src={ecocertLogo} alt="Ecocert" className="h-7 object-contain" />
-                      <img src={bdihLogo} alt="BDIH" className="h-7 object-contain" />
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <img src={euBioLogo} alt="EU Bio" className="h-6 md:h-7 object-contain" />
+                      <img src={demeterLogo} alt="Demeter" className="h-6 md:h-7 object-contain" />
+                      <img src={ecocertLogo} alt="Ecocert" className="h-6 md:h-7 object-contain" />
+                      <img src={bdihLogo} alt="BDIH" className="h-6 md:h-7 object-contain" />
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground font-sans">{b.desc[lang]}</p>
