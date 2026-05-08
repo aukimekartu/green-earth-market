@@ -154,10 +154,6 @@ const ProductListPage = () => {
 
       <div>
         <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.certificates')}</h3>
-        <div className="flex items-center gap-2 mb-3">
-          <Checkbox id="allergen" checked={allergenFree} onCheckedChange={(v) => { setAllergenFree(!!v); setCurrentPage(1); }} />
-          <label htmlFor="allergen" className="text-sm font-sans cursor-pointer">{t('filters.allergenFree')}</label>
-        </div>
         {availableCertificates.length > 0 && (
           <>
             {availableCertificates.length > 5 && (
