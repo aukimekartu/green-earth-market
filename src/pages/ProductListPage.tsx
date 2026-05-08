@@ -121,7 +121,7 @@ const ProductListPage = () => {
   const filterList = (items: string[], q: string) =>
     q.trim() ? items.filter(i => i.toLowerCase().includes(q.trim().toLowerCase())) : items;
 
-  const FiltersContent = () => (
+  const filtersContent = (
     <div className="space-y-6">
       <div>
         <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.searchInList')}</h3>
@@ -255,7 +255,7 @@ const ProductListPage = () => {
         {/* Desktop filters */}
         <aside className="hidden lg:block w-60 shrink-0">
           <h2 className="text-xl text-foreground mb-4">{t('filters.title')}</h2>
-          <FiltersContent />
+          {filtersContent}
         </aside>
 
         {/* Products */}
@@ -271,7 +271,7 @@ const ProductListPage = () => {
               </SheetTrigger>
               <SheetContent side="left" className="bg-card w-72">
                 <SheetHeader><SheetTitle className="font-handwritten text-2xl">{t('filters.title')}</SheetTitle></SheetHeader>
-                <div className="mt-6"><FiltersContent /></div>
+                <div className="mt-6">{filtersContent}</div>
               </SheetContent>
             </Sheet>
 
