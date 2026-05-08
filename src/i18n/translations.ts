@@ -61,6 +61,10 @@ export const translations = {
     country: { lt: 'Kilmės šalis', en: 'Country', lv: 'Valsts' },
     certificates: { lt: 'Sertifikatai', en: 'Certificates', lv: 'Sertifikāti' },
     showFilters: { lt: 'Rodyti filtrus', en: 'Show filters', lv: 'Rādīt filtrus' },
+    searchInList: { lt: 'Ieškoti produkto...', en: 'Search product...', lv: 'Meklēt produktu...' },
+    searchPlaceholder: { lt: 'Ieškoti...', en: 'Search...', lv: 'Meklēt...' },
+    clearAll: { lt: 'Išvalyti filtrus', en: 'Clear filters', lv: 'Notīrīt filtrus' },
+    noMatches: { lt: 'Nėra atitikmenų', en: 'No matches', lv: 'Nav atbilstību' },
   },
   footer: {
     newsletter: { lt: 'Naujienlaiškis', en: 'Newsletter', lv: 'Jaunumu vēstule' },
