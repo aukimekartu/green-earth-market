@@ -20,6 +20,8 @@ const ProductListPage = () => {
 
   const [sortBy, setSortBy] = useState('newest');
   const [allergenFree, setAllergenFree] = useState(false);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const allCategories = [...foodCategories, ...sowingCategories, ...cosmeticsCategories];
@@ -27,6 +29,29 @@ const ProductListPage = () => {
   const title = category ? category.name[lang] : searchQuery
     ? `"${searchQuery}"`
     : lang === 'lt' ? 'Visi produktai' : lang === 'en' ? 'All products' : 'Visi produkti';
+
+  const baseScoped = useMemo(() => {
+    let result = [...products];
+    if (categorySlug) result = result.filter(p => p.categorySlug === categorySlug);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(p =>
+        p.name[lang].toLowerCase().includes(q) ||
+        p.description[lang].toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [categorySlug, searchQuery, lang]);
+
+  const availableCountries = useMemo(() => {
+    const set = new Set(baseScoped.map(p => p.rawMaterialOrigin[lang]));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [baseScoped, lang]);
+
+  const availableManufacturers = useMemo(() => {
+    const set = new Set(baseScoped.map(p => p.manufacturer));
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [baseScoped]);
 
   const filtered = useMemo(() => {
     let result = [...products];
@@ -39,6 +64,8 @@ const ProductListPage = () => {
       );
     }
     if (allergenFree) result = result.filter(p => p.allergenFree);
+    if (selectedCountries.length > 0) result = result.filter(p => selectedCountries.includes(p.rawMaterialOrigin[lang]));
+    if (selectedManufacturers.length > 0) result = result.filter(p => selectedManufacturers.includes(p.manufacturer));
 
     switch (sortBy) {
       case 'nameAZ': result.sort((a, b) => a.name[lang].localeCompare(b.name[lang])); break;
@@ -49,10 +76,15 @@ const ProductListPage = () => {
       default: break;
     }
     return result;
-  }, [categorySlug, searchQuery, allergenFree, sortBy, lang]);
+  }, [categorySlug, searchQuery, allergenFree, selectedCountries, selectedManufacturers, sortBy, lang]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paged = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  const toggleValue = (list: string[], setList: (v: string[]) => void, value: string) => {
+    setList(list.includes(value) ? list.filter(v => v !== value) : [...list, value]);
+    setCurrentPage(1);
+  };
 
   const FiltersContent = () => (
     <div className="space-y-6">
@@ -63,6 +95,42 @@ const ProductListPage = () => {
           <label htmlFor="allergen" className="text-sm font-sans cursor-pointer">{t('filters.allergenFree')}</label>
         </div>
       </div>
+
+      {availableCountries.length > 0 && (
+        <div>
+          <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.brandCountry')}</h3>
+          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            {availableCountries.map(country => (
+              <div key={country} className="flex items-center gap-2">
+                <Checkbox
+                  id={`country-${country}`}
+                  checked={selectedCountries.includes(country)}
+                  onCheckedChange={() => toggleValue(selectedCountries, setSelectedCountries, country)}
+                />
+                <label htmlFor={`country-${country}`} className="text-sm font-sans cursor-pointer">{country}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {availableManufacturers.length > 0 && (
+        <div>
+          <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.manufacturer')}</h3>
+          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            {availableManufacturers.map(m => (
+              <div key={m} className="flex items-center gap-2">
+                <Checkbox
+                  id={`mfr-${m}`}
+                  checked={selectedManufacturers.includes(m)}
+                  onCheckedChange={() => toggleValue(selectedManufacturers, setSelectedManufacturers, m)}
+                />
+                <label htmlFor={`mfr-${m}`} className="text-sm font-sans cursor-pointer">{m}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 
