@@ -1,77 +1,117 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { toast } from 'sonner';
 import { products, type Product } from '@/data/products';
+import { useCartStore } from '@/stores/cartStore';
+import { loadShopifyVariants, getCachedVariant } from '@/lib/shopifyVariants';
 
-interface CartItem {
+interface LocalCartItem {
   productId: string;
   quantity: number;
 }
 
 interface CartContextType {
-  items: CartItem[];
-  addItem: (productId: string, qty?: number) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, qty: number) => void;
+  items: LocalCartItem[];
+  addItem: (productId: string, qty?: number) => Promise<void>;
+  removeItem: (productId: string) => Promise<void>;
+  updateQuantity: (productId: string, qty: number) => Promise<void>;
   clearCart: () => void;
   getItemCount: () => number;
   getTotal: () => number;
   getProduct: (productId: string) => Product | undefined;
   isCartOpen: boolean;
   setCartOpen: (open: boolean) => void;
+  getCheckoutUrl: () => string | null;
+  isLoading: boolean;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
 
+const productsById = new Map(products.map((p) => [p.id, p]));
+const productsBySku = new Map(products.map((p) => [p.code, p]));
+
+function findLocalByVariantSku(sku: string | null): Product | undefined {
+  if (!sku) return undefined;
+  return productsBySku.get(sku);
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('bio-cart');
-      return saved ? JSON.parse(saved) : [];
-    } catch { return []; }
-  });
-  const [isCartOpen, setCartOpen] = useState(false);
+  const storeItems = useCartStore((s) => s.items);
+  const isOpen = useCartStore((s) => s.isOpen);
+  const setOpen = useCartStore((s) => s.setOpen);
+  const isLoading = useCartStore((s) => s.isLoading);
 
-  useEffect(() => {
-    localStorage.setItem('bio-cart', JSON.stringify(items));
-  }, [items]);
+  // Preload Shopify variant map once
+  useEffect(() => { loadShopifyVariants(); }, []);
 
-  const addItem = useCallback((productId: string, qty = 1) => {
-    setItems(prev => {
-      const existing = prev.find(i => i.productId === productId);
-      if (existing) {
-        return prev.map(i => i.productId === productId ? { ...i, quantity: i.quantity + qty } : i);
-      }
-      return [...prev, { productId, quantity: qty }];
-    });
-    setCartOpen(true);
-  }, []);
+  const items: LocalCartItem[] = useMemo(() => {
+    return storeItems
+      .map((i) => {
+        const local = findLocalByVariantSku(i.sku);
+        return local ? { productId: local.id, quantity: i.quantity } : null;
+      })
+      .filter((x): x is LocalCartItem => x !== null);
+  }, [storeItems]);
 
-  const removeItem = useCallback((productId: string) => {
-    setItems(prev => prev.filter(i => i.productId !== productId));
-  }, []);
-
-  const updateQuantity = useCallback((productId: string, qty: number) => {
-    if (qty <= 0) {
-      setItems(prev => prev.filter(i => i.productId !== productId));
-    } else {
-      setItems(prev => prev.map(i => i.productId === productId ? { ...i, quantity: qty } : i));
+  const findVariantForProduct = async (productId: string) => {
+    const local = productsById.get(productId);
+    if (!local) return null;
+    let variant = getCachedVariant(local.code);
+    if (!variant) {
+      const map = await loadShopifyVariants();
+      variant = map.get(local.code);
     }
-  }, []);
+    return variant ? { local, variant } : null;
+  };
 
-  const clearCart = useCallback(() => setItems([]), []);
+  const addItem = async (productId: string, qty = 1) => {
+    const found = await findVariantForProduct(productId);
+    if (!found) {
+      toast.error('Produktas nepasiekiamas Shopify parduotuvėje');
+      return;
+    }
+    await useCartStore.getState().addItem({
+      product: found.variant.product,
+      variantId: found.variant.variantId,
+      variantTitle: found.variant.variantTitle,
+      sku: found.variant.sku,
+      price: found.variant.price,
+      quantity: qty,
+      selectedOptions: found.variant.selectedOptions,
+    });
+  };
 
-  const getItemCount = useCallback(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
+  const removeItem = async (productId: string) => {
+    const local = productsById.get(productId);
+    if (!local) return;
+    const variant = getCachedVariant(local.code);
+    if (!variant) return;
+    await useCartStore.getState().removeItem(variant.variantId);
+  };
 
-  const getTotal = useCallback(() => {
-    return items.reduce((sum, item) => {
-      const product = products.find(p => p.id === item.productId);
-      return sum + (product ? product.price * item.quantity : 0);
-    }, 0);
-  }, [items]);
+  const updateQuantity = async (productId: string, qty: number) => {
+    const local = productsById.get(productId);
+    if (!local) return;
+    const variant = getCachedVariant(local.code);
+    if (!variant) return;
+    await useCartStore.getState().updateQuantity(variant.variantId, qty);
+  };
 
-  const getProduct = useCallback((productId: string) => products.find(p => p.id === productId), []);
+  const clearCart = () => useCartStore.getState().clearCart();
+  const getItemCount = () => items.reduce((s, i) => s + i.quantity, 0);
+  const getTotal = () => items.reduce((s, i) => {
+    const p = productsById.get(i.productId);
+    return s + (p ? p.price * i.quantity : 0);
+  }, 0);
+  const getProduct = (productId: string) => productsById.get(productId);
+  const getCheckoutUrl = () => useCartStore.getState().getCheckoutUrl();
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, getItemCount, getTotal, getProduct, isCartOpen, setCartOpen }}>
+    <CartContext.Provider value={{
+      items, addItem, removeItem, updateQuantity, clearCart,
+      getItemCount, getTotal, getProduct,
+      isCartOpen: isOpen, setCartOpen: setOpen,
+      getCheckoutUrl, isLoading,
+    }}>
       {children}
     </CartContext.Provider>
   );

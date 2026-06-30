@@ -15,9 +15,6 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import NotFound from "./pages/NotFound";
-import ShopPage from "./pages/ShopPage";
-import ShopProductPage from "./pages/ShopProductPage";
-import { ShopifyCartDrawer } from "@/components/ShopifyCartDrawer";
 import { useCartSync } from "@/hooks/useCartSync";
 
 const queryClient = new QueryClient();
@@ -36,15 +33,12 @@ const AppContent = () => {
           <Route path="products" element={<ProductListPage />} />
           <Route path="products/:categorySlug" element={<ProductListPage />} />
           <Route path="product/:slug" element={<ProductDetailPage />} />
-          <Route path="shop" element={<ShopPage />} />
-          <Route path="shop/:handle" element={<ShopProductPage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="privacy" element={<PrivacyPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <ShopifyCartDrawer />
     </>
   );
 };
