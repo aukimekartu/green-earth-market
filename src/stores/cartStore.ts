@@ -17,6 +17,7 @@ export interface CartItem {
   product: ShopifyProduct;
   variantId: string;
   variantTitle: string;
+  sku: string | null;
   price: { amount: string; currencyCode: string };
   quantity: number;
   selectedOptions: Array<{ name: string; value: string }>;

@@ -68,6 +68,7 @@ export const PRODUCTS_QUERY = `
               node {
                 id
                 title
+                sku
                 price { amount currencyCode }
                 availableForSale
                 selectedOptions { name value }
@@ -95,6 +96,7 @@ export const PRODUCT_BY_HANDLE_QUERY = `
           node {
             id
             title
+            sku
             price { amount currencyCode }
             availableForSale
             selectedOptions { name value }
