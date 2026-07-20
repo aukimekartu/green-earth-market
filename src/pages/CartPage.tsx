@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
-import { Minus, Plus, Trash2, ShoppingCart } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingCart, ExternalLink, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const CartPage = () => {
   const { lang, t } = useLanguage();
-  const { items, getProduct, updateQuantity, removeItem, getTotal, clearCart } = useCart();
+  const { items, getProduct, updateQuantity, removeItem, getTotal, getCheckoutUrl, isLoading } = useCart();
+
+  const handleCheckout = () => {
+    const url = getCheckoutUrl();
+    if (!url) {
+      toast.error(lang === 'lt' ? 'Krepšelis dar kraunamas, palaukite' : 'Cart still loading');
+      return;
+    }
+    window.open(url, '_blank');
+  };
 
   if (items.length === 0) {
     return (
@@ -69,8 +79,8 @@ const CartPage = () => {
             <span>{t('cart.total')}:</span>
             <span>€{getTotal().toFixed(2)}</span>
           </div>
-          <Button variant="cta" className="w-full" size="lg" asChild>
-            <Link to={`/${lang}/checkout`}>{t('cart.checkout')}</Link>
+          <Button variant="cta" className="w-full" size="lg" onClick={handleCheckout} disabled={isLoading}>
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4 mr-2" />{t('cart.checkout')}</>}
           </Button>
           <Button variant="ghost" className="w-full mt-2" asChild>
             <Link to={`/${lang}/products`}>{t('cart.continueShopping')}</Link>
