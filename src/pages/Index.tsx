@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Leaf, ShieldCheck, Truck } from 'lucide-react';
+import { Leaf, ShieldCheck, Truck, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { foodCategories } from '@/data/categories';
-import { products } from '@/data/products';
+import { useCatalog } from '@/hooks/useCatalog';
 import { CategoryTile } from '@/components/CategoryTile';
 import { ProductCard } from '@/components/ProductCard';
 import euBioLogo from '@/assets/certificates/eu-bio-benefit.png';
@@ -13,7 +13,8 @@ import bdihLogo from '@/assets/certificates/bdih.png';
 
 const Index = () => {
   const { lang, t } = useLanguage();
-  const featuredProducts = products.slice(0, 4);
+  const { data: catalog, isLoading } = useCatalog();
+  const featuredProducts = (catalog ?? []).slice(0, 8);
   const featuredCategories = foodCategories.slice(0, 6);
 
   const benefits = [
@@ -115,7 +116,13 @@ const Index = () => {
             </Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {featuredProducts.map(product => (
+            {isLoading ? (
+              <div className="col-span-full flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>
+            ) : featuredProducts.length === 0 ? (
+              <p className="col-span-full text-center py-8 text-muted-foreground font-sans">
+                {lang === 'lt' ? 'Produktų nerasta.' : lang === 'en' ? 'No products found.' : 'Produkti nav atrasti.'}
+              </p>
+            ) : featuredProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
