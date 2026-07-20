@@ -1,15 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { foodCategories, sowingCategories, cosmeticsCategories, lifestyleCategories, homeCategories, mainNavCategories } from '@/data/categories';
+import { mainCategoryMap, mainNavCategories } from '@/data/categories';
 import { CategoryTile } from '@/components/CategoryTile';
-
-const categoryMap: Record<string, typeof foodCategories> = {
-  maistas: foodCategories,
-  sejai: sowingCategories,
-  kosmetika: cosmeticsCategories,
-  buiciai: lifestyleCategories,
-  namams: homeCategories,
-};
 
 const CategoryPage = () => {
   const { slug } = useParams();
@@ -18,7 +10,7 @@ const CategoryPage = () => {
   const mainCat = mainNavCategories.find(c => c.slug === slug);
   const title = mainCat ? mainCat.name[lang] : t('categories.title');
 
-  const subcategories = slug ? categoryMap[slug] : undefined;
+  const subcategories = slug ? mainCategoryMap[slug] : undefined;
 
   return (
     <div className="container mx-auto px-4 py-8">
