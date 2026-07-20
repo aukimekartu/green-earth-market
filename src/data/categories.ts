@@ -238,8 +238,15 @@ const tagLookup: Map<string, { mainSlug: string; subSlug: string }> = (() => {
   const m = new Map<string, { mainSlug: string; subSlug: string }>();
   for (const [mainSlug, subs] of Object.entries(mainCategoryMap)) {
     for (const sub of subs) {
-      for (const t of sub.tags ?? []) {
-        m.set(norm(t), { mainSlug, subSlug: sub.slug });
+      const aliases = new Set<string>([
+        ...(sub.tags ?? []),
+        sub.slug,
+        sub.name.lt,
+        sub.name.en,
+        sub.name.lv,
+      ]);
+      for (const a of aliases) {
+        if (a) m.set(norm(a), { mainSlug, subSlug: sub.slug });
       }
     }
   }
