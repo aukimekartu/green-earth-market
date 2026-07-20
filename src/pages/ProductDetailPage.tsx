@@ -8,6 +8,7 @@ import { useProductByHandle } from '@/hooks/useCatalog';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { ProductDescription } from '@/components/ProductDescription';
 
 const ProductDetailPage = () => {
   const { slug } = useParams();
@@ -159,7 +160,7 @@ const ProductDetailPage = () => {
             <TabsTrigger value="info" className="font-handwritten text-lg">{t('product.productInfo')}</TabsTrigger>
           </TabsList>
           <TabsContent value="description" className="mt-6">
-            <p className="text-foreground font-sans leading-relaxed max-w-3xl whitespace-pre-line">{product.description}</p>
+            <ProductDescription description={product.description} className="max-w-3xl" />
           </TabsContent>
           <TabsContent value="info" className="mt-6">
             <div className="max-w-3xl space-y-6">
