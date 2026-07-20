@@ -136,6 +136,8 @@ export const cosmeticsCategories: Category[] = [
     tags: ['natūralios žvakės'] },
   { id: 'pilingo-pirstines', slug: 'pilingo-pirstines', name: { lt: 'Pilingo pirštinės', en: 'Peeling gloves', lv: 'Pīlinga cimdi' }, icon: HandIcon,
     tags: ['pilingo pirštinės'] },
+  { id: 'kosmetikos-aliejai', slug: 'kosmetikos-aliejai', name: { lt: 'Kosmetiniai aliejai', en: 'Cosmetic oils', lv: 'Kosmētiskās eļļas' }, icon: Droplet,
+    tags: ['kosmetiniai aliejai', 'kosmetikos aliejai'] },
 ];
 
 // -------------------- BUIČIAI --------------------
@@ -282,10 +284,21 @@ export interface CategoryMatch {
 export function getCategoryFromTags(tags: string[]): CategoryMatch {
   const mainSlugs = new Set<string>();
   const subSlugs = new Set<string>();
+  // First pass: collect explicit main-nav slugs from top-level tag aliases
+  const explicitMains = new Set<string>();
+  for (const raw of tags) {
+    const alias = mainNavTagAliases[norm(raw)];
+    if (alias) explicitMains.add(alias);
+  }
   for (const raw of tags) {
     const key = norm(raw);
     const sub = tagLookup.get(key);
     if (sub) {
+      // If the product declares explicit main-nav sections, only accept
+      // subcategory matches that belong to one of those sections. This
+      // prevents ambiguous tags like "aliejai" from mapping a cosmetic
+      // product into the food "Aliejai" subcategory.
+      if (explicitMains.size > 0 && !explicitMains.has(sub.mainSlug)) continue;
       mainSlugs.add(sub.mainSlug);
       subSlugs.add(sub.subSlug);
       continue;
