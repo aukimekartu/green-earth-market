@@ -1,4 +1,4 @@
-import { storefrontApiRequest, type ShopifyProduct } from './shopify';
+import { storefrontApiRequest, SHOPIFY_STORE_PERMANENT_DOMAIN, type ShopifyProduct } from './shopify';
 import { getCategoryFromTags } from '@/data/categories';
 
 /** Known certificate names (case-insensitive) detected from product tags */
@@ -7,6 +7,19 @@ export const KNOWN_CERTIFICATES = [
   'ICEA', 'CosmeBio', 'Cruelty-free', 'USDA Organic', 'NaTrue', 'COSMOS',
 ];
 const CERT_LC = new Map(KNOWN_CERTIFICATES.map(c => [c.toLowerCase(), c]));
+
+/** Vendor placeholders that Shopify auto-fills when the CSV import omits vendor */
+const PLACEHOLDER_VENDORS = new Set<string>([
+  SHOPIFY_STORE_PERMANENT_DOMAIN.toLowerCase(),
+  SHOPIFY_STORE_PERMANENT_DOMAIN.split('.')[0].toLowerCase(),
+]);
+
+function cleanVendor(v: string | undefined): string {
+  const s = (v ?? '').trim();
+  if (!s) return '';
+  if (PLACEHOLDER_VENDORS.has(s.toLowerCase())) return '';
+  return s;
+}
 
 export interface CatalogVariant {
   id: string;
@@ -97,7 +110,7 @@ export function mapProduct(p: ShopifyProduct): CatalogProduct {
     handle: node.handle,
     title: node.title,
     description: node.description,
-    vendor: (node as unknown as { vendor?: string }).vendor ?? '',
+    vendor: cleanVendor((node as unknown as { vendor?: string }).vendor),
     productType: (node as unknown as { productType?: string }).productType ?? '',
     tags,
     images: images.length ? images : [PLACEHOLDER],
