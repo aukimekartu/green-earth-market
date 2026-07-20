@@ -136,6 +136,8 @@ export const cosmeticsCategories: Category[] = [
     tags: ['natūralios žvakės'] },
   { id: 'pilingo-pirstines', slug: 'pilingo-pirstines', name: { lt: 'Pilingo pirštinės', en: 'Peeling gloves', lv: 'Pīlinga cimdi' }, icon: HandIcon,
     tags: ['pilingo pirštinės'] },
+  { id: 'kosmetikos-aliejai', slug: 'kosmetikos-aliejai', name: { lt: 'Kosmetiniai aliejai', en: 'Cosmetic oils', lv: 'Kosmētiskās eļļas' }, icon: Droplet,
+    tags: ['kosmetiniai aliejai', 'kosmetikos aliejai'] },
 ];
 
 // -------------------- BUIČIAI --------------------
