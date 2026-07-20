@@ -65,8 +65,9 @@ function buildHeaderRegex(): RegExp {
   const alts = SECTION_KEYWORDS
     .map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     .join('|');
-  // Require the keyword to start a sentence: preceded by start-of-string, newline, or period (+ optional space).
-  return new RegExp(`(?<=^|\\n|\\.\\s{0,3})(${alts})`, 'gi');
+  // Case-sensitive so lower-cased occurrences inside sentences (e.g. "pakuotės", "energetinė vertė")
+  // never match as section headers. Require a word-boundary on the left.
+  return new RegExp(`(?<=^|[\\s.])(${alts})`, 'g');
 }
 
 const NUTRITION_KEYS = new Set(
@@ -85,7 +86,7 @@ function findSections(text: string): { intro: string; sections: RawSection[] } {
   const matches: RawSection[] = [];
   let m: RegExpExecArray | null;
   while ((m = regex.exec(text)) !== null) {
-    const key = SECTION_KEYWORDS.find((k) => k.toLowerCase() === m![1].toLowerCase()) ?? m[1];
+    const key = SECTION_KEYWORDS.find((k) => k === m![1]) ?? m[1];
     const headerStart = m.index;
     let headerEnd = headerStart + m[1].length;
     while (headerEnd < text.length && /[\s:\-–—/]/.test(text[headerEnd])) headerEnd++;
