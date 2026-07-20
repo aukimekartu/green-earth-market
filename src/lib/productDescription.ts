@@ -65,8 +65,13 @@ function buildHeaderRegex(): RegExp {
   const alts = SECTION_KEYWORDS
     .map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     .join('|');
-  return new RegExp(`(${alts})`, 'gi');
+  // Require the keyword to start a sentence: preceded by start-of-string, newline, or period (+ optional space).
+  return new RegExp(`(?<=^|\\n|\\.\\s{0,3})(${alts})`, 'gi');
 }
+
+const NUTRITION_KEYS = new Set(
+  ['Maistingumo deklaracija', 'Maistingumo vertė', 'Maistinė vertė', 'Energetinė vertė'].map((s) => s.toLowerCase())
+);
 
 interface RawSection {
   key: string;
@@ -86,12 +91,17 @@ function findSections(text: string): { intro: string; sections: RawSection[] } {
     while (headerEnd < text.length && /[\s:\-–—/]/.test(text[headerEnd])) headerEnd++;
     matches.push({ key, start: headerStart, headerEnd, body: '' });
   }
-  // Filter overlaps
+  // Filter overlaps and drop repeat nutrition headers so they stay inside the table body.
   const filtered: RawSection[] = [];
+  let nutritionSeen = false;
   for (const s of matches) {
-    if (filtered.length === 0 || s.start >= filtered[filtered.length - 1].headerEnd) {
-      filtered.push(s);
+    if (filtered.length > 0 && s.start < filtered[filtered.length - 1].headerEnd) continue;
+    const isNutrition = NUTRITION_KEYS.has(s.key.toLowerCase());
+    if (isNutrition) {
+      if (nutritionSeen) continue;
+      nutritionSeen = true;
     }
+    filtered.push(s);
   }
   for (let i = 0; i < filtered.length; i++) {
     const end = i + 1 < filtered.length ? filtered[i + 1].start : text.length;
