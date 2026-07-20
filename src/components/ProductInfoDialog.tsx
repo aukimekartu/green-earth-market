@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import type { CatalogProduct } from '@/lib/shopifyCatalog';
+import { ProductDescription } from '@/components/ProductDescription';
 
 interface Props {
   product: CatalogProduct;
@@ -32,9 +33,7 @@ export function ProductInfoDialog({ product }: Props) {
 
         <div className="space-y-5 mt-2">
           {product.description && (
-            <div>
-              <p className="text-sm text-foreground font-sans whitespace-pre-line">{product.description}</p>
-            </div>
+            <ProductDescription description={product.description} compact />
           )}
 
           {product.certificates.length > 0 && (
