@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 export function CartSidebar() {
   const { lang, t } = useLanguage();
-  const { items, isCartOpen, setCartOpen, getProduct, updateQuantity, removeItem, getTotal, getCheckoutUrl, isLoading } = useCart();
+  const { items, isCartOpen, setCartOpen, updateQuantity, removeItem, getTotal, getCheckoutUrl, isLoading } = useCart();
 
   const handleCheckout = () => {
     const url = getCheckoutUrl();
@@ -37,37 +37,33 @@ export function CartSidebar() {
         ) : (
           <>
             <div className="flex-1 overflow-y-auto space-y-4 py-4">
-              {items.map(item => {
-                const product = getProduct(item.productId);
-                if (!product) return null;
-                return (
-                  <div key={item.productId} className="flex gap-3 p-3 bg-secondary/50 rounded-lg">
-                    <img src={product.image} alt={product.name[lang]} className="w-16 h-16 object-contain rounded bg-card" />
+              {items.map(item => (
+                  <div key={item.variantId} className="flex gap-3 p-3 bg-secondary/50 rounded-lg">
+                    <img src={item.image} alt={item.title} className="w-16 h-16 object-contain rounded bg-card" />
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-medium truncate">{product.name[lang]}</h4>
-                      <p className="text-sm font-bold text-primary mt-1">€{product.price.toFixed(2)}</p>
+                      <h4 className="text-sm font-medium truncate">{item.title}</h4>
+                      <p className="text-sm font-bold text-primary mt-1">€{item.price.toFixed(2)}</p>
                       <div className="flex items-center gap-2 mt-2">
                         <button
-                          onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                          onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
                           className="w-7 h-7 rounded-full bg-card border border-border flex items-center justify-center hover:bg-secondary transition-colors"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
                         <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                          onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
                           className="w-7 h-7 rounded-full bg-card border border-border flex items-center justify-center hover:bg-secondary transition-colors"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
                     </div>
-                    <button onClick={() => removeItem(item.productId)} className="text-muted-foreground hover:text-destructive transition-colors self-start">
+                    <button onClick={() => removeItem(item.variantId)} className="text-muted-foreground hover:text-destructive transition-colors self-start">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
-                );
-              })}
+              ))}
             </div>
 
             <div className="border-t border-border pt-4 space-y-3">
