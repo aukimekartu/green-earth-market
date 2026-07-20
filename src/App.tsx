@@ -12,7 +12,6 @@ import CategoryPage from "./pages/CategoryPage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import NotFound from "./pages/NotFound";
 import { useCartSync } from "@/hooks/useCartSync";
@@ -34,7 +33,6 @@ const AppContent = () => {
           <Route path="products/:categorySlug" element={<ProductListPage />} />
           <Route path="product/:slug" element={<ProductDetailPage />} />
           <Route path="cart" element={<CartPage />} />
-          <Route path="checkout" element={<CheckoutPage />} />
           <Route path="privacy" element={<PrivacyPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
