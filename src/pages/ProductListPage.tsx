@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { SlidersHorizontal, Search, X } from 'lucide-react';
+import { SlidersHorizontal, Search, X, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { products } from '@/data/products';
-import { foodCategories, sowingCategories, cosmeticsCategories } from '@/data/categories';
+import { useCatalog } from '@/hooks/useCatalog';
+import { mainCategoryMap, mainNavCategories } from '@/data/categories';
 import { ProductCard } from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -11,51 +11,64 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 24;
 
 const ProductListPage = () => {
   const { categorySlug } = useParams();
   const [searchParams] = useSearchParams();
   const { lang, t } = useLanguage();
   const searchQuery = searchParams.get('q') || '';
+  const { data: catalog, isLoading } = useCatalog();
 
   const [sortBy, setSortBy] = useState('newest');
-  const [allergenFree, setAllergenFree] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>([]);
   const [selectedCertificates, setSelectedCertificates] = useState<string[]>([]);
   const [productSearch, setProductSearch] = useState('');
-  const [countrySearch, setCountrySearch] = useState('');
   const [manufacturerSearch, setManufacturerSearch] = useState('');
   const [certificateSearch, setCertificateSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const allCategories = [...foodCategories, ...sowingCategories, ...cosmeticsCategories];
-  const category = allCategories.find(c => c.slug === categorySlug);
-  const title = category ? category.name[lang] : searchQuery
-    ? `"${searchQuery}"`
-    : lang === 'lt' ? 'Visi produktai' : lang === 'en' ? 'All products' : 'Visi produkti';
+  // Resolve title: could be a subcategory slug, main-nav slug, or a search
+  const { title, isMainSlug, isSubSlug } = useMemo(() => {
+    if (!categorySlug) {
+      return {
+        title: searchQuery
+          ? `"${searchQuery}"`
+          : lang === 'lt' ? 'Visi produktai' : lang === 'en' ? 'All products' : 'Visi produkti',
+        isMainSlug: false, isSubSlug: false,
+      };
+    }
+    const mainCat = mainNavCategories.find(c => c.slug === categorySlug);
+    if (mainCat && mainCategoryMap[categorySlug]) {
+      return { title: mainCat.name[lang], isMainSlug: true, isSubSlug: false };
+    }
+    for (const subs of Object.values(mainCategoryMap)) {
+      const sub = subs.find(s => s.slug === categorySlug);
+      if (sub) return { title: sub.name[lang], isMainSlug: false, isSubSlug: true };
+    }
+    return { title: categorySlug, isMainSlug: false, isSubSlug: false };
+  }, [categorySlug, searchQuery, lang]);
 
   const baseScoped = useMemo(() => {
-    let result = [...products];
-    if (categorySlug) result = result.filter(p => p.categorySlug === categorySlug);
+    let result = [...(catalog ?? [])];
+    if (categorySlug) {
+      if (isMainSlug) result = result.filter(p => p.mainSlugs.includes(categorySlug));
+      else if (isSubSlug) result = result.filter(p => p.subSlugs.includes(categorySlug));
+      else result = result.filter(p => p.tags.some(t => t.toLowerCase() === categorySlug.toLowerCase()));
+    }
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(p =>
-        p.name[lang].toLowerCase().includes(q) ||
-        p.description[lang].toLowerCase().includes(q)
+        p.title.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.vendor.toLowerCase().includes(q)
       );
     }
     return result;
-  }, [categorySlug, searchQuery, lang]);
-
-  const availableCountries = useMemo(() => {
-    const set = new Set(baseScoped.map(p => p.rawMaterialOrigin[lang]));
-    return Array.from(set).sort((a, b) => a.localeCompare(b));
-  }, [baseScoped, lang]);
+  }, [catalog, categorySlug, isMainSlug, isSubSlug, searchQuery]);
 
   const availableManufacturers = useMemo(() => {
-    const set = new Set(baseScoped.map(p => p.manufacturer));
+    const set = new Set(baseScoped.map(p => p.vendor).filter(Boolean));
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [baseScoped]);
 
@@ -70,26 +83,23 @@ const ProductListPage = () => {
     if (productSearch.trim()) {
       const q = productSearch.trim().toLowerCase();
       result = result.filter(p =>
-        p.name[lang].toLowerCase().includes(q) ||
-        p.manufacturer.toLowerCase().includes(q) ||
-        p.code.toLowerCase().includes(q)
+        p.title.toLowerCase().includes(q) ||
+        p.vendor.toLowerCase().includes(q) ||
+        p.handle.toLowerCase().includes(q)
       );
     }
-    if (allergenFree) result = result.filter(p => p.allergenFree);
-    if (selectedCountries.length > 0) result = result.filter(p => selectedCountries.includes(p.rawMaterialOrigin[lang]));
-    if (selectedManufacturers.length > 0) result = result.filter(p => selectedManufacturers.includes(p.manufacturer));
+    if (selectedManufacturers.length > 0) result = result.filter(p => selectedManufacturers.includes(p.vendor));
     if (selectedCertificates.length > 0) result = result.filter(p => p.certificates.some(c => selectedCertificates.includes(c)));
 
     switch (sortBy) {
-      case 'nameAZ': result.sort((a, b) => a.name[lang].localeCompare(b.name[lang])); break;
+      case 'nameAZ': result.sort((a, b) => a.title.localeCompare(b.title)); break;
       case 'priceAsc': result.sort((a, b) => a.price - b.price); break;
       case 'priceDesc': result.sort((a, b) => b.price - a.price); break;
-      case 'brandCountry': result.sort((a, b) => a.rawMaterialOrigin[lang].localeCompare(b.rawMaterialOrigin[lang])); break;
-      case 'manufacturer': result.sort((a, b) => a.manufacturer.localeCompare(b.manufacturer)); break;
+      case 'manufacturer': result.sort((a, b) => a.vendor.localeCompare(b.vendor)); break;
       default: break;
     }
     return result;
-  }, [baseScoped, productSearch, allergenFree, selectedCountries, selectedManufacturers, selectedCertificates, sortBy, lang]);
+  }, [baseScoped, productSearch, selectedManufacturers, selectedCertificates, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paged = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
@@ -100,19 +110,14 @@ const ProductListPage = () => {
   };
 
   const activeFilterCount =
-    (allergenFree ? 1 : 0) +
-    selectedCountries.length +
     selectedManufacturers.length +
     selectedCertificates.length +
     (productSearch.trim() ? 1 : 0);
 
   const clearAll = () => {
-    setAllergenFree(false);
-    setSelectedCountries([]);
     setSelectedManufacturers([]);
     setSelectedCertificates([]);
     setProductSearch('');
-    setCountrySearch('');
     setManufacturerSearch('');
     setCertificateSearch('');
     setCurrentPage(1);
@@ -183,35 +188,6 @@ const ProductListPage = () => {
         )}
       </div>
 
-      {availableCountries.length > 0 && (
-        <div>
-          <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.brandCountry')}</h3>
-          {availableCountries.length > 5 && (
-            <Input
-              value={countrySearch}
-              onChange={e => setCountrySearch(e.target.value)}
-              placeholder={t('filters.searchPlaceholder')}
-              className="h-8 mb-2 bg-card"
-            />
-          )}
-          <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
-            {filterList(availableCountries, countrySearch).map(country => (
-              <div key={country} className="flex items-center gap-2">
-                <Checkbox
-                  id={`country-${country}`}
-                  checked={selectedCountries.includes(country)}
-                  onCheckedChange={() => toggleValue(selectedCountries, setSelectedCountries, country)}
-                />
-                <label htmlFor={`country-${country}`} className="text-sm font-sans cursor-pointer">{country}</label>
-              </div>
-            ))}
-            {filterList(availableCountries, countrySearch).length === 0 && (
-              <p className="text-xs text-muted-foreground">{t('filters.noMatches')}</p>
-            )}
-          </div>
-        </div>
-      )}
-
       {availableManufacturers.length > 0 && (
         <div>
           <h3 className="font-semibold text-sm mb-3 font-sans">{t('filters.manufacturer')}</h3>
@@ -280,14 +256,15 @@ const ProductListPage = () => {
                   <SelectItem value="nameAZ">{t('filters.nameAZ')}</SelectItem>
                   <SelectItem value="priceAsc">{t('filters.priceAsc')}</SelectItem>
                   <SelectItem value="priceDesc">{t('filters.priceDesc')}</SelectItem>
-                  <SelectItem value="brandCountry">{t('filters.brandCountry')}</SelectItem>
                   <SelectItem value="manufacturer">{t('filters.manufacturer')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {paged.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+          ) : paged.length === 0 ? (
             <p className="text-center py-16 text-muted-foreground text-lg font-sans">
               {lang === 'lt' ? 'Produktų nerasta.' : lang === 'en' ? 'No products found.' : 'Produkti nav atrasti.'}
             </p>
