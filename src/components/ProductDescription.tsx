@@ -28,11 +28,12 @@ export function ProductDescription({ description, className, compact = false, mo
   const showIntro = mode === 'full' || mode === 'intro';
   const showDetails = mode === 'full' || mode === 'details';
 
-  // If intro mode requested but no intro parsed, fall back to full description text.
+  // If intro mode requested but no intro parsed, show a placeholder instead of
+  // dumping the structured details (nutrition/sections) as raw text.
   if (mode === 'intro' && !parsed.intro) {
     return (
-      <p className={cn('text-foreground font-sans whitespace-pre-line', className)}>
-        {description}
+      <p className={cn('text-muted-foreground font-sans italic', className)}>
+        Aprašymas ruošiamas. Detalią informaciją rasite skiltyje „Produkto informacija".
       </p>
     );
   }
