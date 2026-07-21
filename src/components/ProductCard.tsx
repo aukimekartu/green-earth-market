@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
         >
           <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-accent text-accent' : 'text-muted-foreground')} />
         </button>
-        <ProductBadges product={product} className="absolute top-3 left-3 max-w-[calc(100%-3.5rem)]" />
+        <ProductBadges product={product} variant="card" className="absolute top-3 left-3 max-w-[calc(100%-3.5rem)]" />
       </div>
 
       <div className="flex flex-col flex-1 p-4 gap-2">
