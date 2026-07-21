@@ -5,6 +5,7 @@ import { useCart } from '@/hooks/useCart';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Button } from '@/components/ui/button';
 import { ProductInfoDialog } from '@/components/ProductInfoDialog';
+import { ProductBadges } from '@/components/ProductBadges';
 import type { CatalogProduct } from '@/lib/shopifyCatalog';
 import { cn } from '@/lib/utils';
 
@@ -36,6 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
         >
           <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-accent text-accent' : 'text-muted-foreground')} />
         </button>
+        <ProductBadges product={product} className="absolute top-3 left-3 max-w-[calc(100%-3.5rem)]" />
       </div>
 
       <div className="flex flex-col flex-1 p-4 gap-2">
