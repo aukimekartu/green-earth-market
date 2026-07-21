@@ -45,6 +45,7 @@ const SECTION_KEYWORDS = [
   'Laikymo sąlygos',
   'Laikymas',
   'Laikyti',
+  'Pakuotėje',
   'Pakuotė',
   'Vienetas',
   'Kilmė',
@@ -106,7 +107,10 @@ function findSections(text: string): { intro: string; sections: RawSection[] } {
   }
   for (let i = 0; i < filtered.length; i++) {
     const end = i + 1 < filtered.length ? filtered[i + 1].start : text.length;
-    filtered[i].body = text.slice(filtered[i].headerEnd, end).trim().replace(/^[.\s]+|[\s]+$/g, '');
+    filtered[i].body = text
+      .slice(filtered[i].headerEnd, end)
+      .replace(/^[\s:.\-–—]+/, '')
+      .trim();
   }
   const intro = (filtered.length > 0 ? text.slice(0, filtered[0].start) : text).trim();
   return { intro, sections: filtered };
