@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { ProductDescription } from '@/components/ProductDescription';
+import { ProductBadges } from '@/components/ProductBadges';
 
 const ProductDetailPage = () => {
   const { slug } = useParams();
@@ -73,6 +74,8 @@ const ProductDetailPage = () => {
         <div>
           <div className="bg-secondary rounded-2xl p-6 md:p-8 torn-edge-bottom relative">
             <h1 className="text-3xl md:text-4xl text-foreground mb-4">{product.title}</h1>
+
+            <ProductBadges product={product} size="md" className="mb-4" />
 
             <div className="flex items-baseline gap-3 mb-4">
               <span className="bg-primary text-primary-foreground text-2xl font-bold px-4 py-2 rounded-lg font-sans">
