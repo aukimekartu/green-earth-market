@@ -1,14 +1,18 @@
-import { Leaf } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { CatalogProduct } from '@/lib/shopifyCatalog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import ecoIcon from '@/assets/badges/eco-leaf.png';
+import demeterIcon from '@/assets/badges/demeter.png';
+import glutenFreeIcon from '@/assets/badges/gluten-free.png';
+import lactoseFreeIcon from '@/assets/badges/lactose-free.png';
+import noSugarIcon from '@/assets/badges/no-added-sugar.png';
 
 export type BadgeKey = 'eco' | 'demeter' | 'gluten-free' | 'lactose-free' | 'no-added-sugar';
 
 interface DetectedBadge {
   key: BadgeKey;
   label: string;
-  className: string;
-  icon?: React.ReactNode;
+  icon: string;
 }
 
 function normalize(s: string): string {
@@ -36,8 +40,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     badges.push({
       key: 'eco',
       label: 'Ekologiškas',
-      className: 'bg-primary/10 text-primary border-primary/30',
-      icon: <Leaf className="w-3 h-3" />,
+      icon: ecoIcon,
     });
   }
 
@@ -45,7 +48,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     badges.push({
       key: 'demeter',
       label: 'Demeter',
-      className: 'bg-amber-100 text-amber-900 border-amber-300',
+      icon: demeterIcon,
     });
   }
 
@@ -53,7 +56,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     badges.push({
       key: 'gluten-free',
       label: 'Be glitimo',
-      className: 'bg-orange-100 text-orange-900 border-orange-300',
+      icon: glutenFreeIcon,
     });
   }
 
@@ -61,7 +64,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     badges.push({
       key: 'lactose-free',
       label: 'Be laktozės',
-      className: 'bg-sky-100 text-sky-900 border-sky-300',
+      icon: lactoseFreeIcon,
     });
   }
 
@@ -69,7 +72,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     badges.push({
       key: 'no-added-sugar',
       label: 'Be pridėtinio cukraus',
-      className: 'bg-rose-100 text-rose-900 border-rose-300',
+      icon: noSugarIcon,
     });
   }
 
@@ -86,23 +89,30 @@ export function ProductBadges({ product, size = 'sm', className }: Props) {
   const badges = detectBadges(product);
   if (badges.length === 0) return null;
 
-  const sizeCls = size === 'md' ? 'text-xs px-2.5 py-1' : 'text-[10px] px-2 py-0.5';
+  const dim = size === 'md' ? 'w-10 h-10' : 'w-7 h-7';
 
   return (
-    <div className={cn('flex flex-wrap gap-1.5', className)}>
-      {badges.map(b => (
-        <span
-          key={b.key}
-          className={cn(
-            'inline-flex items-center gap-1 rounded-full border font-sans font-medium leading-none',
-            sizeCls,
-            b.className
-          )}
-        >
-          {b.icon}
-          {b.label}
-        </span>
-      ))}
-    </div>
+    <TooltipProvider delayDuration={100}>
+      <div className={cn('flex flex-wrap gap-1.5', className)}>
+        {badges.map(b => (
+          <Tooltip key={b.key}>
+            <TooltipTrigger asChild>
+              <span
+                className={cn(
+                  'inline-flex items-center justify-center rounded-full bg-card/90 backdrop-blur shadow-sm ring-1 ring-border',
+                  dim
+                )}
+                aria-label={b.label}
+              >
+                <img src={b.icon} alt={b.label} className="w-full h-full object-contain p-0.5" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="font-sans text-xs">
+              {b.label}
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </div>
+    </TooltipProvider>
   );
 }
