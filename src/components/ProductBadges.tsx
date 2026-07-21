@@ -25,21 +25,23 @@ function normalize(s: string): string {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
-export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description' | 'certificates' | 'mainSlugs'>): DetectedBadge[] {
-  const text = normalize(`${product.description ?? ''} ${(product.tags ?? []).join(' ')}`);
+export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'description' | 'certificates' | 'mainSlugs'>): DetectedBadge[] {
+  const text = normalize(`${product.title ?? ''} ${product.description ?? ''} ${(product.tags ?? []).join(' ')}`);
   const certs = (product.certificates ?? []).map(c => c.toLowerCase());
-  const isFood = (product.mainSlugs ?? []).includes('maistas');
 
   const badges: DetectedBadge[] = [];
+
+  const isDemeter = certs.includes('demeter') || /\bdemeter\b|biodinami/.test(text);
 
   const isEco =
     certs.includes('eu bio') ||
     certs.includes('demeter') ||
     certs.includes('usda organic') ||
     /\b(ekologis|organic|bio-|biologis)/.test(text) ||
-    /\beko\b/.test(text);
+    /\beko\b/.test(text) ||
+    isDemeter;
 
-  if (isFood && isEco) {
+  if (isEco) {
     badges.push({
       key: 'eco',
       label: 'Ekologiškas',
@@ -47,7 +49,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'tags' | 'description
     });
   }
 
-  if (certs.includes('demeter') || /\bdemeter\b|biodinami/.test(text)) {
+  if (isDemeter) {
     badges.push({
       key: 'demeter',
       label: 'Demeter',
