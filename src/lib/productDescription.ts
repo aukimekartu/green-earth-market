@@ -46,6 +46,7 @@ const SECTION_KEYWORDS = [
   'Laikymas',
   'Laikyti',
   'Pakuotė',
+  'Pakuotėje',
   'Vienetas',
   'Kilmė',
   'Pagaminta',
