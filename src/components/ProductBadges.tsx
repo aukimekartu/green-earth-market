@@ -85,7 +85,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'd
 }
 
 interface Props {
-  product: Pick<CatalogProduct, 'tags' | 'description' | 'certificates' | 'mainSlugs'>;
+  product: Pick<CatalogProduct, 'title' | 'tags' | 'description' | 'certificates' | 'mainSlugs'>;
   size?: 'sm' | 'md';
   className?: string;
 }
