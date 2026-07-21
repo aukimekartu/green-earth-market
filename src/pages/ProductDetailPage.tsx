@@ -160,10 +160,11 @@ const ProductDetailPage = () => {
             <TabsTrigger value="info" className="font-handwritten text-lg">{t('product.productInfo')}</TabsTrigger>
           </TabsList>
           <TabsContent value="description" className="mt-6">
-            <ProductDescription description={product.description} className="max-w-3xl" />
+            <ProductDescription description={product.description} mode="intro" className="max-w-3xl" />
           </TabsContent>
           <TabsContent value="info" className="mt-6">
             <div className="max-w-3xl space-y-6">
+              <ProductDescription description={product.description} mode="details" />
               {product.certificates.length > 0 && (
                 <div>
                   <h3 className="text-xl text-foreground mb-2">{t('product.qualityMarks')}</h3>
