@@ -1,11 +1,14 @@
 import { cn } from '@/lib/utils';
 import type { CatalogProduct } from '@/lib/shopifyCatalog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import ecoIcon from '@/assets/badges/eco-leaf.png';
-import demeterIcon from '@/assets/badges/demeter.png';
+import ecoIconAsset from '@/assets/badges/eu-bio.png.asset.json';
+import demeterIconAsset from '@/assets/badges/demeter-logo.png.asset.json';
 import glutenFreeIcon from '@/assets/badges/gluten-free.png';
 import lactoseFreeIcon from '@/assets/badges/lactose-free.png';
 import noSugarIcon from '@/assets/badges/no-added-sugar.png';
+
+const ecoIcon = ecoIconAsset.url;
+const demeterIcon = demeterIconAsset.url;
 
 export type BadgeKey = 'eco' | 'demeter' | 'gluten-free' | 'lactose-free' | 'no-added-sugar';
 
