@@ -84,11 +84,11 @@ export function ProductDescription({ description, className, compact = false, mo
       )}
 
       {showDetails && parsed.sections.length > 0 && (
-        <dl className={cn('space-y-3', compact && 'text-sm')}>
+        <dl className={cn('space-y-4', compact && 'text-sm')}>
           {parsed.sections.map((s, i) => (
             <div key={`${s.title}-${i}`}>
-              <dt className="font-semibold text-foreground">{s.title}</dt>
-              <dd className="text-foreground/90 whitespace-pre-line leading-relaxed mt-0.5">
+              <dt className="font-semibold text-foreground block mb-1">{s.title}:</dt>
+              <dd className="text-foreground/90 whitespace-pre-line leading-relaxed">
                 {s.body}
               </dd>
             </div>
