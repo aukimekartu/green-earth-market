@@ -92,7 +92,7 @@ export function ProductBadges({ product, size = 'sm', className }: Props) {
   const badges = detectBadges(product);
   if (badges.length === 0) return null;
 
-  const dim = size === 'md' ? 'w-10 h-10' : 'w-7 h-7';
+  const dim = size === 'md' ? 'w-12 h-12' : 'w-9 h-9';
 
   return (
     <TooltipProvider delayDuration={100}>
@@ -101,13 +101,10 @@ export function ProductBadges({ product, size = 'sm', className }: Props) {
           <Tooltip key={b.key}>
             <TooltipTrigger asChild>
               <span
-                className={cn(
-                  'inline-flex items-center justify-center rounded-full bg-card/90 backdrop-blur shadow-sm ring-1 ring-border',
-                  dim
-                )}
+                className={cn('inline-flex items-center justify-center drop-shadow-sm', dim)}
                 aria-label={b.label}
               >
-                <img src={b.icon} alt={b.label} className="w-full h-full object-contain p-0.5" />
+                <img src={b.icon} alt={b.label} loading="lazy" className="w-full h-full object-contain" />
               </span>
             </TooltipTrigger>
             <TooltipContent side="top" className="font-sans text-xs">
