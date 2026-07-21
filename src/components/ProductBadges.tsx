@@ -88,13 +88,17 @@ interface Props {
   product: Pick<CatalogProduct, 'title' | 'tags' | 'description' | 'certificates' | 'mainSlugs'>;
   size?: 'sm' | 'md';
   className?: string;
+  variant?: 'card' | 'detail';
 }
 
-export function ProductBadges({ product, size = 'sm', className }: Props) {
-  const badges = detectBadges(product);
+export function ProductBadges({ product, size = 'sm', className, variant = 'detail' }: Props) {
+  let badges = detectBadges(product);
+  if (variant === 'card') {
+    badges = badges.filter(b => b.key !== 'eco' && b.key !== 'demeter');
+  }
   if (badges.length === 0) return null;
 
-  const dim = size === 'md' ? 'w-12 h-12' : 'w-9 h-9';
+  const dim = size === 'md' ? 'w-12 h-12' : 'w-7 h-7';
 
   return (
     <TooltipProvider delayDuration={100}>
