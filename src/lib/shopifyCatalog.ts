@@ -62,6 +62,7 @@ const CATALOG_QUERY = `
           id
           title
           description
+          descriptionHtml
           handle
           vendor
           productType
@@ -149,6 +150,7 @@ const PRODUCT_BY_HANDLE_FULL = `
       id
       title
       description
+      descriptionHtml
       handle
       vendor
       productType
