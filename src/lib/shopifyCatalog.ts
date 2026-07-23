@@ -110,7 +110,7 @@ export function mapProduct(p: ShopifyProduct): CatalogProduct {
     id: node.id,
     handle: node.handle,
     title: node.title,
-    description: node.description,
+    description: htmlToPlainText((node as unknown as { descriptionHtml?: string }).descriptionHtml) || node.description,
     vendor: cleanVendor((node as unknown as { vendor?: string }).vendor),
     productType: (node as unknown as { productType?: string }).productType ?? '',
     tags,
