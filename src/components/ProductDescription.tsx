@@ -1,6 +1,18 @@
 import { parseProductDescription } from '@/lib/productDescription';
 import { cn } from '@/lib/utils';
 
+const INTRO_BOLD_LABELS = ['Sudedamosios dalys:', 'Grynasis kiekis'];
+
+function renderIntroWithBold(text: string) {
+  const pattern = new RegExp(`(${INTRO_BOLD_LABELS.map(l => l.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')).join('|')})`, 'g');
+  const parts = text.split(pattern);
+  return parts.map((part, i) =>
+    INTRO_BOLD_LABELS.includes(part)
+      ? <strong key={i} className="font-semibold text-foreground">{part}</strong>
+      : <span key={i}>{part}</span>
+  );
+}
+
 interface Props {
   description: string;
   className?: string;
@@ -45,7 +57,7 @@ export function ProductDescription({ description, className, compact = false, mo
   return (
     <div className={cn('space-y-5 font-sans text-foreground', className)}>
       {showIntro && parsed.intro && (
-        <p className="whitespace-pre-line leading-relaxed">{parsed.intro}</p>
+        <p className="whitespace-pre-line leading-relaxed">{renderIntroWithBold(parsed.intro)}</p>
       )}
 
       {showDetails && parsed.nutrition && (
