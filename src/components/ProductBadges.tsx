@@ -29,11 +29,21 @@ export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'd
   const text = normalize(`${product.title ?? ''} ${product.description ?? ''} ${(product.tags ?? []).join(' ')}`);
   const certs = (product.certificates ?? []).map(c => c.toLowerCase());
 
+  // Explicit tags from the Shopify "Tags" column, e.g. badge:gluten-free
+  const tagSet = new Set(
+    (product.tags ?? []).map(t => normalize(t).trim().replace(/^badge[:\-_\s]*/, '').replace(/[\s_]+/g, '-'))
+  );
+  const hasTag = (...keys: string[]) => keys.some(k => tagSet.has(k));
+
   const badges: DetectedBadge[] = [];
 
-  const isDemeter = certs.includes('demeter') || /\bdemeter\b|biodinami/.test(text);
+  const isDemeter =
+    hasTag('demeter', 'biodinaminis') ||
+    certs.includes('demeter') ||
+    /\bdemeter\b|biodinami/.test(text);
 
   const isEco =
+    hasTag('eko', 'ekologiskas', 'organic', 'eu-bio', 'bio') ||
     certs.includes('eu bio') ||
     certs.includes('demeter') ||
     certs.includes('usda organic') ||
@@ -57,7 +67,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'd
     });
   }
 
-  if (/be glitimo|gluten[- ]free|be glitim/.test(text)) {
+  if (hasTag('be-glitimo', 'gluten-free', 'begliteno') || /be glitimo|gluten[- ]free|be glitim/.test(text)) {
     badges.push({
       key: 'gluten-free',
       label: 'Be glitimo',
@@ -65,7 +75,7 @@ export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'd
     });
   }
 
-  if (/be laktozes|lactose[- ]free|be pieno/.test(text)) {
+  if (hasTag('be-laktozes', 'lactose-free') || /be laktozes|lactose[- ]free|be pieno/.test(text)) {
     badges.push({
       key: 'lactose-free',
       label: 'Be laktozės',
@@ -73,13 +83,17 @@ export function detectBadges(product: Pick<CatalogProduct, 'title' | 'tags' | 'd
     });
   }
 
-  if (/be pridetinio cukraus|no added sugar|be cukraus/.test(text)) {
+  if (
+    hasTag('be-cukraus', 'be-pridetinio-cukraus', 'no-added-sugar', 'sugar-free') ||
+    /be pridetinio cukraus|no added sugar|be cukraus/.test(text)
+  ) {
     badges.push({
       key: 'no-added-sugar',
       label: 'Be pridėtinio cukraus',
       icon: noSugarIcon,
     });
   }
+
 
   return badges;
 }
