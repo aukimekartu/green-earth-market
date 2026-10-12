@@ -1,3 +1,4 @@
+import logoAsset from '@/assets/brand/eko123-logo.png.asset.json';
 import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -44,9 +45,7 @@ export function Header() {
 
           {/* Logo */}
           <Link to={`/${lang}`} className="shrink-0">
-            <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight">
-              eko123
-            </span>
+            <img src={logoAsset.url} alt="eko123" className="h-10 md:h-12 w-auto" />
           </Link>
 
           {/* Search */}

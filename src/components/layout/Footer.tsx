@@ -1,3 +1,4 @@
+import logoAsset from '@/assets/brand/eko123-logo.png.asset.json';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp, Gift, Facebook, Instagram } from 'lucide-react';
@@ -37,8 +38,8 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <Link to={`/${lang}`} className="font-semibold text-3xl font-bold">
-                eko123
+              <Link to={`/${lang}`} className="inline-block">
+                <img src={logoAsset.url} alt="eko123" className="h-12 w-auto bg-card rounded-md p-2" />
               </Link>
               <div className="flex gap-3 mt-4">
                 <a href="#" className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors" aria-label="Facebook">
