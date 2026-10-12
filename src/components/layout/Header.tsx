@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Heart, User, ShoppingCart, Menu, X } from 'lucide-react';
@@ -44,7 +45,7 @@ export function Header() {
           {/* Logo */}
           <Link to={`/${lang}`} className="shrink-0">
             <span className="font-handwritten text-2xl md:text-3xl font-bold text-primary">
-              Natura<span className="text-accent">Vida</span>
+              eko123
             </span>
           </Link>
 
@@ -91,7 +92,7 @@ export function Header() {
                   </span>
                 )}
               </div>
-              <span className="text-sm font-semibold hidden md:inline">€{getTotal().toFixed(2)}</span>
+              <span className="text-sm font-semibold hidden md:inline">{formatPrice(getTotal())}</span>
             </button>
           </div>
         </div>

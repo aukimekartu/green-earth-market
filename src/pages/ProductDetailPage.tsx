@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Minus, Plus, Heart, Check, Loader2 } from 'lucide-react';
@@ -79,7 +80,7 @@ const ProductDetailPage = () => {
 
             <div className="flex items-baseline gap-3 mb-4">
               <span className="bg-primary text-primary-foreground text-2xl font-bold px-4 py-2 rounded-lg font-sans">
-                €{product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </span>
             </div>
 
@@ -147,7 +148,7 @@ const ProductDetailPage = () => {
 
           {/* Mobile sticky add to cart */}
           <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border p-3 flex items-center gap-3 lg:hidden">
-            <span className="font-bold text-lg font-sans">€{product.price.toFixed(2)}</span>
+            <span className="font-bold text-lg font-sans">{formatPrice(product.price)}</span>
             <Button variant="cta" className="flex-1" onClick={() => addProduct(product, quantity)} disabled={!product.availableForSale}>
               {t('cart.addToCart')}
             </Button>

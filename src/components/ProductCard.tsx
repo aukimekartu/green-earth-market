@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -55,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="mt-auto pt-2 flex items-end justify-between gap-2">
           <div>
             <div className="bg-primary text-primary-foreground text-sm font-bold px-3 py-1 rounded inline-block">
-              €{product.price.toFixed(2)}
+              {formatPrice(product.price)}
             </div>
             {product.vendor && <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{product.vendor}</p>}
           </div>

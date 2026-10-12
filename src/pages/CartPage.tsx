@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingCart, ExternalLink, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -64,8 +65,8 @@ const CartPage = () => {
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="font-bold font-sans">€{(item.price * item.quantity).toFixed(2)}</p>
-                  <p className="text-xs text-muted-foreground font-sans">€{item.price.toFixed(2)}</p>
+                  <p className="font-bold font-sans">{formatPrice((item.price * item.quantity))}</p>
+                  <p className="text-xs text-muted-foreground font-sans">{formatPrice(item.price)}</p>
                 </div>
               </div>
           ))}
@@ -75,7 +76,7 @@ const CartPage = () => {
           <h2 className="text-2xl text-foreground mb-4">{t('cart.total')}</h2>
           <div className="flex justify-between text-xl font-bold mb-6 font-sans">
             <span>{t('cart.total')}:</span>
-            <span>€{getTotal().toFixed(2)}</span>
+            <span>{formatPrice(getTotal())}</span>
           </div>
           <Button variant="cta" className="w-full" size="lg" onClick={handleCheckout} disabled={isLoading}>
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4 mr-2" />{t('cart.checkout')}</>}

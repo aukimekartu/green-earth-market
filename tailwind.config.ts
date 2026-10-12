@@ -19,10 +19,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        handwritten: ["Caveat", "cursive"],
-        sans: ["Nunito", "sans-serif"],
+        handwritten: ["'Source Sans 3'", "sans-serif"],
+        sans: ["'Source Sans 3'", "sans-serif"],
       },
       colors: {
+        warning: "hsl(var(--warning))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -31,6 +32,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          dark: "hsl(var(--primary-dark))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,6 +49,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          light: "hsl(var(--accent-light))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
