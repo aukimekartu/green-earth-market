@@ -119,7 +119,7 @@ export function Header() {
               <li key={cat.id}>
                 <Link
                   to={cat.id === 'maistas' ? `/${lang}/category/maistas` : `/${lang}/category/${cat.slug}`}
-                  className="text-sm font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                  className="text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
                 >
                   {cat.name[lang]}
                 </Link>
@@ -140,7 +140,7 @@ export function Header() {
               <Link
                 key={cat.id}
                 to={cat.id === 'maistas' ? `/${lang}/category/maistas` : `/${lang}/category/${cat.slug}`}
-                className="block py-2 text-sm font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {cat.name[lang]}
