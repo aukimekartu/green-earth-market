@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
           className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/80 backdrop-blur flex items-center justify-center hover:bg-card transition-colors shadow-sm"
           aria-label={t('favorites.title')}
         >
-          <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-accent text-accent' : 'text-muted-foreground')} />
+          <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-primary text-primary' : 'text-muted-foreground')} />
         </button>
         <ProductBadges product={product} variant="card" className="absolute top-3 left-3 max-w-[calc(100%-3.5rem)]" />
       </div>

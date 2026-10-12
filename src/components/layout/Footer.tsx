@@ -37,7 +37,7 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <Link to={`/${lang}`} className="font-handwritten text-3xl font-bold">
+              <Link to={`/${lang}`} className="font-semibold text-3xl font-bold">
                 eko123
               </Link>
               <div className="flex gap-3 mt-4">
@@ -106,7 +106,7 @@ export function Footer() {
       {/* Floating gift/deals button */}
       <Link
         to={`/${lang}/category/akcijos`}
-        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-accent text-accent-foreground shadow-lg flex items-center justify-center hover:bg-accent/90 transition-colors animate-bounce"
+        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-accent text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark transition-colors animate-bounce"
         style={{ animationDuration: '3s' }}
       >
         <Gift className="w-5 h-5" />

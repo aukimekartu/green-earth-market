@@ -33,7 +33,7 @@ const ProductDetailPage = () => {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <p className="text-xl text-muted-foreground">Product not found</p>
-        <Link to={`/${lang}/products`} className="text-accent underline mt-4 inline-block">← Back</Link>
+        <Link to={`/${lang}/products`} className="text-primary underline mt-4 inline-block">← Back</Link>
       </div>
     );
   }
@@ -135,9 +135,9 @@ const ProductDetailPage = () => {
 
             <button
               onClick={() => toggleFavorite(product.handle)}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors font-sans"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-sans"
             >
-              <Heart className={cn('w-5 h-5', fav ? 'fill-accent text-accent' : '')} />
+              <Heart className={cn('w-5 h-5', fav ? 'fill-primary text-primary' : '')} />
               {t('favorites.title')}
             </button>
 
@@ -160,8 +160,8 @@ const ProductDetailPage = () => {
       <div className="mt-12 lg:mt-16">
         <Tabs defaultValue="description">
           <TabsList className="bg-secondary/50 w-full justify-start">
-            <TabsTrigger value="description" className="font-handwritten text-lg">{t('product.description')}</TabsTrigger>
-            <TabsTrigger value="info" className="font-handwritten text-lg">{t('product.productInfo')}</TabsTrigger>
+            <TabsTrigger value="description" className="text-base font-semibold">{t('product.description')}</TabsTrigger>
+            <TabsTrigger value="info" className="text-base font-semibold">{t('product.productInfo')}</TabsTrigger>
           </TabsList>
           <TabsContent value="description" className="mt-6">
             <ProductDescription description={product.description} mode="intro" className="max-w-3xl" />

@@ -25,7 +25,7 @@ export function CartSidebar() {
     <Sheet open={isCartOpen} onOpenChange={setCartOpen}>
       <SheetContent className="w-full sm:max-w-md bg-card flex flex-col">
         <SheetHeader>
-          <SheetTitle className="font-handwritten text-2xl flex items-center gap-2">
+          <SheetTitle className="text-xl font-semibold flex items-center gap-2">
             <ShoppingCart className="w-6 h-6" />
             {t('cart.cart')}
           </SheetTitle>
