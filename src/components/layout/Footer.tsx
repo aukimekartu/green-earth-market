@@ -106,7 +106,7 @@ export function Footer() {
       {/* Floating gift/deals button */}
       <Link
         to={`/${lang}/category/akcijos`}
-        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-accent text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark transition-colors animate-bounce"
+        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark transition-colors"
         style={{ animationDuration: '3s' }}
       >
         <Gift className="w-5 h-5" />

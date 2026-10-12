@@ -44,7 +44,7 @@ export function Header() {
 
           {/* Logo */}
           <Link to={`/${lang}`} className="shrink-0">
-            <span className="text-xl font-semibold md:text-3xl font-bold text-primary">
+            <span className="text-2xl md:text-3xl font-bold text-primary tracking-tight">
               eko123
             </span>
           </Link>
@@ -71,7 +71,7 @@ export function Header() {
             <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors" aria-label={t('favorites.title')}>
               <Heart className="w-5 h-5" />
               {favCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-accent text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {favCount}
                 </span>
               )}
@@ -87,7 +87,7 @@ export function Header() {
               <div className="relative">
                 <ShoppingCart className="w-5 h-5" />
                 {getItemCount() > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-accent text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {getItemCount()}
                   </span>
                 )}
