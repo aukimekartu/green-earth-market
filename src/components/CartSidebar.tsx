@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { Minus, Plus, X, ShoppingCart, ExternalLink, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCart } from '@/hooks/useCart';
@@ -24,7 +25,7 @@ export function CartSidebar() {
     <Sheet open={isCartOpen} onOpenChange={setCartOpen}>
       <SheetContent className="w-full sm:max-w-md bg-card flex flex-col">
         <SheetHeader>
-          <SheetTitle className="font-handwritten text-2xl flex items-center gap-2">
+          <SheetTitle className="text-xl font-semibold flex items-center gap-2">
             <ShoppingCart className="w-6 h-6" />
             {t('cart.cart')}
           </SheetTitle>
@@ -42,7 +43,7 @@ export function CartSidebar() {
                     <img src={item.image} alt={item.title} className="w-16 h-16 object-contain rounded bg-card" />
                     <div className="flex-1 min-w-0">
                       <h4 className="text-sm font-medium truncate">{item.title}</h4>
-                      <p className="text-sm font-bold text-primary mt-1">€{item.price.toFixed(2)}</p>
+                      <p className="text-sm font-bold text-primary mt-1">{formatPrice(item.price)}</p>
                       <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
@@ -69,7 +70,7 @@ export function CartSidebar() {
             <div className="border-t border-border pt-4 space-y-3">
               <div className="flex justify-between text-lg font-bold">
                 <span>{t('cart.total')}:</span>
-                <span>€{getTotal().toFixed(2)}</span>
+                <span>{formatPrice(getTotal())}</span>
               </div>
               <Button variant="cta" className="w-full" size="lg" onClick={handleCheckout} disabled={isLoading}>
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4 mr-2" />{t('cart.checkout')}</>}

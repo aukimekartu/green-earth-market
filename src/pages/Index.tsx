@@ -42,7 +42,7 @@ const Index = () => {
       <section className="relative bg-gradient-to-br from-secondary via-background to-secondary overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-primary/20" />
-          <div className="absolute bottom-10 right-20 w-48 h-48 rounded-full bg-accent/20" />
+          <div className="absolute bottom-10 right-20 w-48 h-48 rounded-full bg-accent" />
           <div className="absolute top-1/2 left-1/3 w-24 h-24 rounded-full bg-primary/10" />
         </div>
         <div className="container mx-auto px-4 py-16 md:py-28 relative z-10">
@@ -94,7 +94,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-end justify-between mb-8">
             <h2 className="text-3xl md:text-4xl text-foreground">{t('categories.title')}</h2>
-            <Link to={`/${lang}/category/maistas`} className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors font-sans">
+            <Link to={`/${lang}/category/maistas`} className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors font-sans">
               {t('categories.viewAll')} →
             </Link>
           </div>
@@ -111,7 +111,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-end justify-between mb-8">
             <h2 className="text-3xl md:text-4xl text-foreground">{t('featured.title')}</h2>
-            <Link to={`/${lang}/products`} className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors font-sans">
+            <Link to={`/${lang}/products`} className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors font-sans">
               {t('featured.viewAll')} →
             </Link>
           </div>

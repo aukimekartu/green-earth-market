@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -35,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
           className="absolute top-3 right-3 w-9 h-9 rounded-full bg-card/80 backdrop-blur flex items-center justify-center hover:bg-card transition-colors shadow-sm"
           aria-label={t('favorites.title')}
         >
-          <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-accent text-accent' : 'text-muted-foreground')} />
+          <Heart className={cn('w-5 h-5 transition-colors', fav ? 'fill-primary text-primary' : 'text-muted-foreground')} />
         </button>
         <ProductBadges product={product} variant="card" className="absolute top-3 left-3 max-w-[calc(100%-3.5rem)]" />
       </div>
@@ -55,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="mt-auto pt-2 flex items-end justify-between gap-2">
           <div>
             <div className="bg-primary text-primary-foreground text-sm font-bold px-3 py-1 rounded inline-block">
-              €{product.price.toFixed(2)}
+              {formatPrice(product.price)}
             </div>
             {product.vendor && <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{product.vendor}</p>}
           </div>

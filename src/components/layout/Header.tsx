@@ -1,3 +1,5 @@
+import logoAsset from '@/assets/brand/eko123-logo.png.asset.json';
+import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Heart, User, ShoppingCart, Menu, X } from 'lucide-react';
@@ -43,9 +45,7 @@ export function Header() {
 
           {/* Logo */}
           <Link to={`/${lang}`} className="shrink-0">
-            <span className="font-handwritten text-2xl md:text-3xl font-bold text-primary">
-              Natura<span className="text-accent">Vida</span>
-            </span>
+            <img src={logoAsset.url} alt="eko123" className="h-10 md:h-12 w-auto" />
           </Link>
 
           {/* Search */}
@@ -70,7 +70,7 @@ export function Header() {
             <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors" aria-label={t('favorites.title')}>
               <Heart className="w-5 h-5" />
               {favCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-accent text-accent-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {favCount}
                 </span>
               )}
@@ -86,12 +86,12 @@ export function Header() {
               <div className="relative">
                 <ShoppingCart className="w-5 h-5" />
                 {getItemCount() > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-accent text-accent-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {getItemCount()}
                   </span>
                 )}
               </div>
-              <span className="text-sm font-semibold hidden md:inline">€{getTotal().toFixed(2)}</span>
+              <span className="text-sm font-semibold hidden md:inline">{formatPrice(getTotal())}</span>
             </button>
           </div>
         </div>
@@ -119,7 +119,7 @@ export function Header() {
               <li key={cat.id}>
                 <Link
                   to={cat.id === 'maistas' ? `/${lang}/category/maistas` : `/${lang}/category/${cat.slug}`}
-                  className="text-sm font-semibold uppercase tracking-wider text-foreground hover:text-accent transition-colors"
+                  className="text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
                 >
                   {cat.name[lang]}
                 </Link>
@@ -140,7 +140,7 @@ export function Header() {
               <Link
                 key={cat.id}
                 to={cat.id === 'maistas' ? `/${lang}/category/maistas` : `/${lang}/category/${cat.slug}`}
-                className="block py-2 text-sm font-semibold uppercase tracking-wider text-foreground hover:text-accent transition-colors"
+                className="block py-2 text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {cat.name[lang]}

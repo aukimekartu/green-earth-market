@@ -1,3 +1,4 @@
+import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Minus, Plus, Heart, Check, Loader2 } from 'lucide-react';
@@ -32,7 +33,7 @@ const ProductDetailPage = () => {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
         <p className="text-xl text-muted-foreground">Product not found</p>
-        <Link to={`/${lang}/products`} className="text-accent underline mt-4 inline-block">← Back</Link>
+        <Link to={`/${lang}/products`} className="text-primary underline mt-4 inline-block">← Back</Link>
       </div>
     );
   }
@@ -79,7 +80,7 @@ const ProductDetailPage = () => {
 
             <div className="flex items-baseline gap-3 mb-4">
               <span className="bg-primary text-primary-foreground text-2xl font-bold px-4 py-2 rounded-lg font-sans">
-                €{product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </span>
             </div>
 
@@ -134,9 +135,9 @@ const ProductDetailPage = () => {
 
             <button
               onClick={() => toggleFavorite(product.handle)}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors font-sans"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-sans"
             >
-              <Heart className={cn('w-5 h-5', fav ? 'fill-accent text-accent' : '')} />
+              <Heart className={cn('w-5 h-5', fav ? 'fill-primary text-primary' : '')} />
               {t('favorites.title')}
             </button>
 
@@ -147,7 +148,7 @@ const ProductDetailPage = () => {
 
           {/* Mobile sticky add to cart */}
           <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border p-3 flex items-center gap-3 lg:hidden">
-            <span className="font-bold text-lg font-sans">€{product.price.toFixed(2)}</span>
+            <span className="font-bold text-lg font-sans">{formatPrice(product.price)}</span>
             <Button variant="cta" className="flex-1" onClick={() => addProduct(product, quantity)} disabled={!product.availableForSale}>
               {t('cart.addToCart')}
             </Button>
@@ -159,8 +160,8 @@ const ProductDetailPage = () => {
       <div className="mt-12 lg:mt-16">
         <Tabs defaultValue="description">
           <TabsList className="bg-secondary/50 w-full justify-start">
-            <TabsTrigger value="description" className="font-handwritten text-lg">{t('product.description')}</TabsTrigger>
-            <TabsTrigger value="info" className="font-handwritten text-lg">{t('product.productInfo')}</TabsTrigger>
+            <TabsTrigger value="description" className="text-base font-semibold">{t('product.description')}</TabsTrigger>
+            <TabsTrigger value="info" className="text-base font-semibold">{t('product.productInfo')}</TabsTrigger>
           </TabsList>
           <TabsContent value="description" className="mt-6">
             <ProductDescription description={product.description} mode="intro" className="max-w-3xl" />

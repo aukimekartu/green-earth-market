@@ -1,3 +1,4 @@
+import logoAsset from '@/assets/brand/eko123-logo.png.asset.json';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp, Gift, Facebook, Instagram } from 'lucide-react';
@@ -37,8 +38,8 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <Link to={`/${lang}`} className="font-handwritten text-3xl font-bold">
-                Natura<span className="text-accent">Vida</span>
+              <Link to={`/${lang}`} className="inline-block">
+                <img src={logoAsset.url} alt="eko123" className="h-12 w-auto bg-card rounded-md p-2" />
               </Link>
               <div className="flex gap-3 mt-4">
                 <a href="#" className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors" aria-label="Facebook">
@@ -106,7 +107,7 @@ export function Footer() {
       {/* Floating gift/deals button */}
       <Link
         to={`/${lang}/category/akcijos`}
-        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-accent text-accent-foreground shadow-lg flex items-center justify-center hover:bg-accent/90 transition-colors animate-bounce"
+        className="fixed bottom-36 right-4 z-40 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary-dark transition-colors"
         style={{ animationDuration: '3s' }}
       >
         <Gift className="w-5 h-5" />

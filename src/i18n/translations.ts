@@ -84,7 +84,7 @@ export const translations = {
     contactUs: { lt: 'Susisiekite', en: 'Contact us', lv: 'Sazinies ar mums' },
     delivery: { lt: 'Pristatymas', en: 'Delivery', lv: 'Piegāde' },
     emailPlaceholder: { lt: 'Jūsų el. paštas', en: 'Your email', lv: 'Jūsu e-pasts' },
-    allRights: { lt: '© 2024 NaturaVida. Visos teisės saugomos.', en: '© 2024 NaturaVida. All rights reserved.', lv: '© 2024 NaturaVida. Visas tiesības aizsargātas.' },
+    allRights: { lt: '© 2026 eko123. Visos teisės saugomos.', en: '© 2026 eko123. All rights reserved.', lv: '© 2026 eko123. Visas tiesības aizsargātas.' },
     about: { lt: 'Apie mus', en: 'About us', lv: 'Par mums' },
   },
   cookie: {

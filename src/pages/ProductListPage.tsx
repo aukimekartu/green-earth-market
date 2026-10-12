@@ -242,7 +242,7 @@ const ProductListPage = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="bg-card w-72">
-                <SheetHeader><SheetTitle className="font-handwritten text-2xl">{t('filters.title')}</SheetTitle></SheetHeader>
+                <SheetHeader><SheetTitle className="text-xl font-semibold">{t('filters.title')}</SheetTitle></SheetHeader>
                 <div className="mt-6">{filtersContent}</div>
               </SheetContent>
             </Sheet>
