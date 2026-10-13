@@ -1,24 +1,9 @@
-import { Truck, Package, Gift } from 'lucide-react';
-
+import { Truck, Package } from 'lucide-react';
+import { useLanguage } from '@/i18n/LanguageContext';
 export function TopBanner() {
-  return (
-    <div className="bg-primary text-primary-foreground text-xs md:text-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center md:justify-between gap-4 md:gap-6 py-2 overflow-x-auto whitespace-nowrap">
-          <span className="flex items-center gap-1.5">
-            <Truck className="w-3.5 h-3.5 shrink-0" />
-            Pristatymo laikas 1–2 darbo dienos
-          </span>
-          <span className="hidden md:flex items-center gap-1.5">
-            <Package className="w-3.5 h-3.5 shrink-0" />
-            Siuntimo išlaidos – tik 3,70 €
-          </span>
-          <span className="hidden md:flex items-center gap-1.5 font-semibold">
-            <Gift className="w-3.5 h-3.5 shrink-0" />
-            Nuo 60 € nemokamas pristatymas į paštomatą
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+  const { lang } = useLanguage();
+  return <div className="bg-primary-dark text-primary-foreground text-xs md:text-sm"><div className="container flex flex-wrap justify-center md:justify-between gap-x-6 gap-y-1 px-4 py-2">
+    <span className="flex items-center gap-2"><Truck className="w-4 h-4" strokeWidth={1.5} />{lang === 'lt' ? 'Išsiunčiame per 1–2 darbo dienas' : lang === 'en' ? 'Dispatch in 1–2 business days' : 'Nosūtām 1–2 darba dienās'}</span>
+    <span className="flex items-center gap-2"><Package className="w-4 h-4" strokeWidth={1.5} />{lang === 'lt' ? 'Į paštomatą 3,70 €, virš 60 € nemokamai' : lang === 'en' ? 'Parcel locker 3,70 €, free over 60 €' : 'Pakomāts 3,70 €, virs 60 € bez maksas'}</span>
+  </div></div>;
 }

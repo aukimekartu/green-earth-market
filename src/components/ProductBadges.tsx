@@ -1,3 +1,5 @@
+import { BrandIcon } from '@/components/BrandIcon';
+import { useLanguage } from '@/i18n/LanguageContext';
 import { cn } from '@/lib/utils';
 import type { CatalogProduct } from '@/lib/shopifyCatalog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -106,13 +108,16 @@ interface Props {
 }
 
 export function ProductBadges({ product, size = 'sm', className, variant = 'detail' }: Props) {
+  const { lang } = useLanguage();
   let badges = detectBadges(product);
   if (variant === 'card') {
-    badges = badges.filter(b => b.key !== 'eco' && b.key !== 'demeter');
+    badges = badges.slice(0, 3);
   }
   if (badges.length === 0) return null;
 
-  const dim = size === 'md' ? 'w-12 h-12' : 'w-7 h-7';
+  const symbols = { eco: 'a-eko', demeter: 'a-bio', 'gluten-free': 'a-gluten', 'lactose-free': 'a-lactose', 'no-added-sugar': 'i-sparkle' };
+  const labels = { eco: ['Ekologiška', 'Organic', 'Bioloģisks'], demeter: ['Biodinaminė', 'Biodynamic', 'Biodinamisks'], 'gluten-free': ['Be glitimo', 'Gluten-free', 'Bez glutēna'], 'lactose-free': ['Be laktozės', 'Lactose-free', 'Bez laktozes'], 'no-added-sugar': ['Be pridėtinio cukraus', 'No added sugar', 'Bez pievienota cukura'] };
+  const label = (key: BadgeKey) => labels[key][lang === 'lt' ? 0 : lang === 'en' ? 1 : 2];
 
   return (
     <TooltipProvider delayDuration={100}>
@@ -121,14 +126,16 @@ export function ProductBadges({ product, size = 'sm', className, variant = 'deta
           <Tooltip key={b.key}>
             <TooltipTrigger asChild>
               <span
-                className={cn('inline-flex items-center justify-center drop-shadow-sm', dim)}
-                aria-label={b.label}
+                className={cn('inline-flex items-center gap-2 text-primary', variant === 'card' ? 'w-7 h-7 justify-center bg-background rounded-sm' : 'px-2 py-1')}
+                aria-label={label(b.key)}
+                title={label(b.key)}
               >
-                <img src={b.icon} alt={b.label} loading="lazy" className="w-full h-full object-contain" />
+                <BrandIcon name={symbols[b.key]} className="w-5 h-5 shrink-0" />
+                {variant === 'detail' && <><span className="text-sm text-foreground">{label(b.key)}</span>{(b.key === 'eco' || b.key === 'demeter') && <img src={b.icon} alt={b.label} className="h-7 w-auto object-contain" />}</>}
               </span>
             </TooltipTrigger>
             <TooltipContent side="top" className="font-sans text-xs">
-              {b.label}
+              {label(b.key)}
             </TooltipContent>
           </Tooltip>
         ))}

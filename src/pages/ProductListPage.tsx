@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal, Search, X, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useCatalog } from '@/hooks/useCatalog';
-import { mainCategoryMap, mainNavCategories } from '@/data/categories';
+import { mainCategoryMap, mainNavCategories, resolveCategorySlug } from '@/data/categories';
+import { CategoryTile } from '@/components/CategoryTile';
 import { ProductCard } from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -14,7 +15,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 const ITEMS_PER_PAGE = 24;
 
 const ProductListPage = () => {
-  const { categorySlug } = useParams();
+  const { categorySlug: requestedSlug, slug } = useParams();
+  const categorySlug = requestedSlug || slug ? resolveCategorySlug(requestedSlug ?? slug ?? '') : undefined;
   const [searchParams] = useSearchParams();
   const { lang, t } = useLanguage();
   const searchQuery = searchParams.get('q') || '';
@@ -102,7 +104,7 @@ const ProductListPage = () => {
   }, [baseScoped, productSearch, selectedManufacturers, selectedCertificates, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const paged = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const paged = filtered.slice(0, currentPage * ITEMS_PER_PAGE);
 
   const toggleValue = (list: string[], setList: (v: string[]) => void, value: string) => {
     setList(list.includes(value) ? list.filter(v => v !== value) : [...list, value]);
@@ -221,8 +223,11 @@ const ProductListPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl md:text-5xl text-foreground mb-6">{title}</h1>
+      <h1 className="text-[32px] leading-10 text-foreground mb-6">{title}</h1>
 
+      {categorySlug && <nav aria-label={t('categories.title')} className="flex flex-wrap gap-2 mb-8">
+        {(mainCategoryMap[categorySlug] ?? Object.values(mainCategoryMap).find(subs => subs.some(c => c.slug === categorySlug)) ?? []).map(cat => <CategoryTile key={cat.id} category={cat} />)}
+      </nav>}
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Desktop filters */}
         <aside className="hidden lg:block w-60 shrink-0">
@@ -231,9 +236,9 @@ const ProductListPage = () => {
         </aside>
 
         {/* Products */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           {/* Sort + mobile filter */}
-          <div className="flex items-center justify-between mb-6 gap-4">
+          <div className="flex items-center justify-between flex-wrap mb-6 gap-3">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm" className="lg:hidden">
@@ -241,7 +246,7 @@ const ProductListPage = () => {
                   {t('filters.showFilters')}
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="bg-card w-72">
+              <SheetContent side="left" className="bg-card w-72 overflow-y-auto">
                 <SheetHeader><SheetTitle className="text-xl font-semibold">{t('filters.title')}</SheetTitle></SheetHeader>
                 <div className="mt-6">{filtersContent}</div>
               </SheetContent>
@@ -269,31 +274,14 @@ const ProductListPage = () => {
               {lang === 'lt' ? 'Produktų nerasta.' : lang === 'en' ? 'No products found.' : 'Produkti nav atrasti.'}
             </p>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
               {paged.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-8">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                <button
-                  key={page}
-                  onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className={`w-10 h-10 rounded-lg text-sm font-semibold transition-colors ${
-                    page === currentPage
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-card border border-border text-foreground hover:bg-secondary'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
-          )}
+          {currentPage * ITEMS_PER_PAGE < filtered.length && <div className="flex justify-center mt-8"><Button variant="outline" onClick={() => setCurrentPage(p => p + 1)}>{lang === 'lt' ? 'Rodyti daugiau prekių' : lang === 'en' ? 'Load more products' : 'Rādīt vairāk preču'}</Button></div>}
         </div>
       </div>
     </div>

@@ -7,18 +7,21 @@ export const translations = {
     lifestyle: { lt: 'Buičiai', en: 'Lifestyle', lv: 'Mājsaimniecība' },
     sowing: { lt: 'Sėjai', en: 'Sowing', lv: 'Sēšana' },
     home: { lt: 'Namams', en: 'Home', lv: 'Mājas' },
-    deals: { lt: 'Akcijos', en: 'Deals', lv: 'Akcijas' },
   },
   search: {
     placeholder: {
-      lt: 'Rasti mėgstamą produktą…',
-      en: 'Find your favorite product…',
-      lv: 'Atrodi savu iecienītāko produktu…',
+      lt: 'Ieškoti prekės ar gamintojo',
+      en: 'Search product or manufacturer',
+      lv: 'Meklēt preci vai ražotāju',
     },
   },
   cart: {
+    decrease: { lt: 'Sumažinti kiekį', en: 'Decrease quantity', lv: 'Samazināt daudzumu' },
+    increase: { lt: 'Padidinti kiekį', en: 'Increase quantity', lv: 'Palielināt daudzumu' },
     addToCart: { lt: 'Į krepšelį', en: 'Add to cart', lv: 'Pievienot grozam' },
-    cart: { lt: 'Krepšelis', en: 'Cart', lv: 'Grozs' },
+    cart: {
+    decrease: { lt: 'Sumažinti kiekį', en: 'Decrease quantity', lv: 'Samazināt daudzumu' },
+    increase: { lt: 'Padidinti kiekį', en: 'Increase quantity', lv: 'Palielināt daudzumu' }, lt: 'Krepšelis', en: 'Cart', lv: 'Grozs' },
     empty: { lt: 'Krepšelis tuščias', en: 'Cart is empty', lv: 'Grozs ir tukšs' },
     total: { lt: 'Viso', en: 'Total', lv: 'Kopā' },
     checkout: { lt: 'Atsiskaityti', en: 'Checkout', lv: 'Apmaksa' },
@@ -30,6 +33,8 @@ export const translations = {
     title: { lt: 'Mėgstami', en: 'Favorites', lv: 'Favorīti' },
   },
   product: {
+    unavailable: { lt: 'Šiuo metu nėra', en: 'Currently unavailable', lv: 'Pašlaik nav pieejams' },
+    lowStock: { lt: 'Liko mažai', en: 'Low stock', lv: 'Atlicis maz' },
     inStock: { lt: 'Turime', en: 'In stock', lv: 'Ir noliktavā' },
     shipsFast: { lt: 'Išsiunčiama greitai', en: 'Ships fast', lv: 'Nosūta ātri' },
     price: { lt: 'Kaina', en: 'Price', lv: 'Cena' },
@@ -69,9 +74,9 @@ export const translations = {
   footer: {
     newsletter: { lt: 'Naujienlaiškis', en: 'Newsletter', lv: 'Jaunumu vēstule' },
     newsletterText: {
-      lt: 'Užsisakykite mūsų naujienlaiškį ir gaukite geriausius pasiūlymus!',
-      en: 'Subscribe to our newsletter and get the best deals!',
-      lv: 'Abonējiet mūsu jaunumu vēstuli un saņemiet labākos piedāvājumus!',
+      lt: 'Naujos prekės ir patarimai el. paštu.',
+      en: 'New products and tips by email.',
+      lv: 'Jaunas preces un padomi e-pastā.',
     },
     subscribe: { lt: 'Prenumeruoti', en: 'Subscribe', lv: 'Abonēt' },
     customerService: { lt: 'Klientų aptarnavimas', en: 'Customer service', lv: 'Klientu apkalpošana' },
