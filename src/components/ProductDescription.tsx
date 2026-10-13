@@ -61,8 +61,8 @@ export function ProductDescription({ description, className, compact = false, mo
       )}
 
       {showDetails && parsed.nutrition && (
-        <div className="rounded-xl border border-border bg-card overflow-hidden">
-          <div className="px-4 py-2.5 bg-secondary/60 border-b border-border">
+        <div className="border border-border bg-card overflow-hidden max-w-[480px]">
+          <div className="px-4 py-2.5 border-b border-border">
             <h4 className="font-semibold text-sm text-foreground">
               Maistingumo deklaracija
               <span className="ml-2 text-muted-foreground font-normal">/ {parsed.nutrition.per}</span>
@@ -75,7 +75,7 @@ export function ProductDescription({ description, className, compact = false, mo
                   key={`${row.label}-${i}`}
                   className={cn(
                     'border-b border-border last:border-0',
-                    i % 2 === 1 ? 'bg-secondary/20' : ''
+                    ''
                   )}
                 >
                   <td
@@ -86,8 +86,8 @@ export function ProductDescription({ description, className, compact = false, mo
                   >
                     {row.label}
                   </td>
-                  <td className="py-2 px-4 text-right font-medium text-foreground whitespace-nowrap">
-                    {row.value}
+                  <td className="py-2 px-4 text-right tabular font-normal text-foreground whitespace-nowrap">
+                    {row.value.replace(/(\d)\.(\d)/g, '$1,$2')}
                   </td>
                 </tr>
               ))}

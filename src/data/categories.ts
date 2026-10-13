@@ -1,320 +1,83 @@
-import {
-  Droplets, Coffee, Sparkles, FlaskConical, Leaf, Droplet,
-  Sun, Wheat, UtensilsCrossed, Apple, Cookie, Cake,
-  Beaker, Archive, Cherry, Carrot, Sprout, Bean,
-  Hand, Smile, Scissors,
-  WashingMachine, SprayCan, GlassWater, Brush, BedDouble,
-  Baby, Rabbit, TreePine, ToyBrick, Baby as PacifierIcon, Music,
-  Pill, HeartPulse, Brain, Shield, Bug, Flame, Waves, Gem,
-  Hand as HandIcon, Palette, Flower2, Candy, Nut, Grape,
-  Bath, ShowerHead, Package, Recycle, ScrollText, Shirt,
-  Cloud, Feather, Snowflake, User, Users, Egg, Fish,
-  type LucideIcon,
-} from 'lucide-react';
+import { BrandIcon } from '@/components/BrandIcon';
+import type { SVGProps } from 'react';
 
 export interface Category {
-  id: string;
-  slug: string;
-  name: { lt: string; en: string; lv: string };
-  icon: LucideIcon;
-  /** Normalized Shopify tags this subcategory covers (lowercased) */
-  tags?: string[];
+  id: string; slug: string; name: { lt: string; en: string; lv: string };
+  icon: (props: SVGProps<SVGSVGElement>) => JSX.Element; tags?: string[];
 }
-
-/** Normalize a tag for matching: lowercase + trim */
+const icon = (name: string) => (props: SVGProps<SVGSVGElement>) => BrandIcon({ name, ...props });
 const norm = (s: string) => s.trim().toLowerCase();
 
-// -------------------- MAISTAS --------------------
 export const foodCategories: Category[] = [
-  { id: 'kava', slug: 'kava', name: { lt: 'Kava', en: 'Coffee', lv: 'Kafija' }, icon: Coffee,
-    tags: ['kava', 'kava ir kiti gėrimai'] },
-  { id: 'kakava', slug: 'kakava', name: { lt: 'Kakava', en: 'Cocoa', lv: 'Kakao' }, icon: Sparkles,
-    tags: ['kakava'] },
-  { id: 'aliejai', slug: 'aliejai', name: { lt: 'Aliejai ir sviestas', en: 'Oils & butter', lv: 'Eļļas' }, icon: Droplet,
-    tags: ['aliejai', 'aliejai ir ghi sviestas'] },
-  { id: 'padazai-prieskoniai', slug: 'padazai-prieskoniai', name: { lt: 'Padažai ir prieskoniai', en: 'Sauces & spices', lv: 'Mērces un garšvielas' }, icon: FlaskConical,
-    tags: ['padažai ir pagardai', 'prieskoniai ir padažai', 'prieskoniai'] },
-  { id: 'druska-soda', slug: 'druska-soda', name: { lt: 'Druska ir soda', en: 'Salt & soda', lv: 'Sāls' }, icon: Beaker,
-    tags: ['druska', 'soda'] },
-  { id: 'saldikliai', slug: 'saldikliai', name: { lt: 'Saldikliai', en: 'Sweeteners', lv: 'Saldinātāji' }, icon: Sun,
-    tags: ['saldikliai'] },
-  { id: 'miltai', slug: 'miltai', name: { lt: 'Miltai ir kepiniams', en: 'Flour & baking', lv: 'Milti' }, icon: Wheat,
-    tags: ['miltai ir jų mišiniai', 'ruošiniai kepiniams'] },
-  { id: 'kruopos-grudai', slug: 'kruopos-grudai', name: { lt: 'Kruopos ir grūdai', en: 'Grains & cereals', lv: 'Putraimi' }, icon: Wheat,
-    tags: ['grūdai ir  kruopos', 'grūdai ir kruopos', 'grūdų produktai', 'grūdų produktai ir ne tik', 'bolivinė balanda ir jų mišiniai', 'ryžiai', 'dribsniai', 'dribsniai ir sėlenos'] },
-  { id: 'makaronai', slug: 'makaronai', name: { lt: 'Makaronai', en: 'Pasta', lv: 'Makaroni' }, icon: UtensilsCrossed,
-    tags: ['makaronai'] },
-  { id: 'duona-pusryciai', slug: 'duona-pusryciai', name: { lt: 'Duona ir pusryčiai', en: 'Bread & breakfast', lv: 'Maize' }, icon: Cookie,
-    tags: ['duona ir trapučiai', 'paplotėliai', 'sausi pusryčiai'] },
-  { id: 'vaisiai-uogos', slug: 'vaisiai-uogos', name: { lt: 'Vaisiai ir uogos', en: 'Fruits & berries', lv: 'Augļi un ogas' }, icon: Apple,
-    tags: ['vaisiai', 'uogos', 'uogos ir vaisiai'] },
-  { id: 'darzoves', slug: 'darzoves', name: { lt: 'Daržovės', en: 'Vegetables', lv: 'Dārzeņi' }, icon: Carrot,
-    tags: ['daržovės'] },
-  { id: 'ankstiniai', slug: 'ankstiniai', name: { lt: 'Ankštiniai', en: 'Legumes', lv: 'Pākšaugi' }, icon: Bean,
-    tags: ['ankštiniai'] },
-  { id: 'sekklos-riesutai', slug: 'sekklos-riesutai', name: { lt: 'Sėklos ir riešutai', en: 'Seeds & nuts', lv: 'Sēklas un rieksti' }, icon: Nut,
-    tags: ['sėklos ir riešutai'] },
-  { id: 'dumbliai', slug: 'dumbliai', name: { lt: 'Dumbliai', en: 'Algae', lv: 'Aļģes' }, icon: Fish,
-    tags: ['dumbliai'] },
-  { id: 'uzkandziai', slug: 'uzkandziai', name: { lt: 'Užkandžiai', en: 'Snacks', lv: 'Uzkodas' }, icon: Cookie,
-    tags: ['užkandžiai', 'užkandžiai ir saldumynai'] },
-  { id: 'saldumynai', slug: 'saldumynai', name: { lt: 'Saldumynai ir šokoladas', en: 'Sweets & chocolate', lv: 'Saldumi' }, icon: Cake,
-    tags: ['saldumynai', 'šokoladas', 'saldainiai', 'guminukai'] },
-  { id: 'sultiniai', slug: 'sultiniai', name: { lt: 'Sultiniai', en: 'Broths', lv: 'Buljoni' }, icon: Egg,
-    tags: ['sultiniai'] },
-  { id: 'super-maistas', slug: 'super-maistas', name: { lt: 'Super maistas', en: 'Super food', lv: 'Super pārtika' }, icon: Sparkles,
-    tags: ['super maistas'] },
-  { id: 'be-glitimo', slug: 'be-glitimo', name: { lt: 'Be glitimo', en: 'Gluten-free', lv: 'Bez glutēna' }, icon: Wheat,
-    tags: ['produktai be glitimo'] },
-  { id: 'be-laktozes', slug: 'be-laktozes', name: { lt: 'Be laktozės', en: 'Lactose-free', lv: 'Bez laktozes' }, icon: Droplets,
-    tags: ['produktai be laktozės'] },
-  { id: 'standikliai', slug: 'standikliai', name: { lt: 'Standikliai ir pakaitalai', en: 'Thickeners & substitutes', lv: 'Biezinātāji' }, icon: Archive,
-    tags: ['standikliai ir pakaitalai'] },
+  { id: "aliejai-padazai-konservai", slug: "aliejai-padazai-konservai", name: {"lt": "Aliejai, padažai ir konservai", "en": "Oils, sauces & preserves", "lv": "Eļļas, mērces un konservi"}, icon: icon("s-oil"), tags: ["aliejai", "Aliejai ir sviestas", "Oils & butter", "Eļļas", "aliejai ir ghi sviestas", "padazai-prieskoniai", "Padažai ir prieskoniai", "Sauces & spices", "Mērces un garšvielas", "padažai ir pagardai", "prieskoniai ir padažai", "darzoves", "Daržovės", "Vegetables", "Dārzeņi", "daržovės", "actas", "konservai", "konservuoti", "Aliejai, padažai ir konservai", "Oils, sauces & preserves", "Eļļas, mērces un konservi"] },
+  { id: "dribsniai-pusryciai", slug: "dribsniai-pusryciai", name: {"lt": "Dribsniai, košės ir sausi pusryčiai", "en": "Flakes, porridge & breakfast cereals", "lv": "Pārslas, putras un brokastu pārslas"}, icon: icon("s-cereal"), tags: ["dribsniai", "dribsniai ir sėlenos", "sausi pusryčiai", "košės", "Dribsniai, košės ir sausi pusryčiai", "Flakes, porridge & breakfast cereals", "Pārslas, putras un brokastu pārslas"] },
+  { id: "kava-kakava-gerimai", slug: "kava-kakava-gerimai", name: {"lt": "Kava, kakava ir kiti gėrimai", "en": "Coffee, cocoa & drinks", "lv": "Kafija, kakao un dzērieni"}, icon: icon("s-drinks"), tags: ["kava", "Kava", "Coffee", "Kafija", "kava ir kiti gėrimai", "kakava", "Kakava", "Cocoa", "Kakao", "arbata", "gėrimai", "Kava, kakava ir kiti gėrimai", "Coffee, cocoa & drinks", "Kafija, kakao un dzērieni"] },
+  { id: "kruopos-ryziai-ankstiniai", slug: "kruopos-ryziai-ankstiniai", name: {"lt": "Kruopos, ryžiai ir ankštiniai", "en": "Grains, rice & legumes", "lv": "Putraimi, rīsi un pākšaugi"}, icon: icon("s-grains"), tags: ["kruopos-grudai", "Kruopos ir grūdai", "Grains & cereals", "Putraimi", "grūdai ir  kruopos", "grūdai ir kruopos", "grūdų produktai", "grūdų produktai ir ne tik", "bolivinė balanda ir jų mišiniai", "ryžiai", "ankstiniai", "Ankštiniai", "Legumes", "Pākšaugi", "ankštiniai", "Kruopos, ryžiai ir ankštiniai", "Grains, rice & legumes", "Putraimi, rīsi un pākšaugi"] },
+  { id: "makaronai", slug: "makaronai", name: {"lt": "Makaronai", "en": "Pasta", "lv": "Makaroni"}, icon: icon("s-pasta"), tags: ["makaronai", "Makaronai", "Pasta", "Makaroni"] },
+  { id: "miltai-kepimas", slug: "miltai-kepimas", name: {"lt": "Miltai, cukrus ir kepimo reikmenys", "en": "Flour, sugar & baking supplies", "lv": "Milti, cukurs un cepšanas piederumi"}, icon: icon("s-baking"), tags: ["miltai", "Miltai ir kepiniams", "Flour & baking", "Milti", "miltai ir jų mišiniai", "ruošiniai kepiniams", "saldikliai", "Saldikliai", "Sweeteners", "Saldinātāji", "standikliai", "Standikliai ir pakaitalai", "Thickeners & substitutes", "Biezinātāji", "standikliai ir pakaitalai", "Miltai, cukrus ir kepimo reikmenys", "Flour, sugar & baking supplies", "Milti, cukurs un cepšanas piederumi"] },
+  { id: "prieskoniai-druska-sultiniai", slug: "prieskoniai-druska-sultiniai", name: {"lt": "Prieskoniai, druska ir sultiniai", "en": "Spices, salt & broths", "lv": "Garšvielas, sāls un buljoni"}, icon: icon("s-spices"), tags: ["druska-soda", "Druska ir soda", "Salt & soda", "Sāls", "druska", "soda", "sultiniai", "Sultiniai", "Broths", "Buljoni", "prieskoniai", "Prieskoniai, druska ir sultiniai", "Spices, salt & broths", "Garšvielas, sāls un buljoni"] },
+  { id: "riesutai-seklos-vaisiai", slug: "riesutai-seklos-vaisiai", name: {"lt": "Riešutai, sėklos ir džiovinti vaisiai", "en": "Nuts, seeds & dried fruit", "lv": "Rieksti, sēklas un žāvēti augļi"}, icon: icon("s-nuts"), tags: ["sekklos-riesutai", "Sėklos ir riešutai", "Seeds & nuts", "Sēklas un rieksti", "sėklos ir riešutai", "vaisiai-uogos", "Vaisiai ir uogos", "Fruits & berries", "Augļi un ogas", "vaisiai", "uogos", "uogos ir vaisiai", "džiovinti vaisiai", "Riešutai, sėklos ir džiovinti vaisiai", "Nuts, seeds & dried fruit", "Rieksti, sēklas un žāvēti augļi"] },
+  { id: "saldumynai-batoneliai", slug: "saldumynai-batoneliai", name: {"lt": "Saldumynai ir batonėliai", "en": "Sweets & bars", "lv": "Saldumi un batoniņi"}, icon: icon("s-sweets"), tags: ["saldumynai", "Saldumynai ir šokoladas", "Sweets & chocolate", "Saldumi", "šokoladas", "saldainiai", "guminukai", "batonėliai", "Saldumynai ir batonėliai", "Sweets & bars", "Saldumi un batoniņi"] },
+  { id: "uzkandziai-paploteliai", slug: "uzkandziai-paploteliai", name: {"lt": "Užkandžiai ir paplotėliai", "en": "Snacks & crispbreads", "lv": "Uzkodas un plāceņi"}, icon: icon("s-snacks"), tags: ["uzkandziai", "Užkandžiai", "Snacks", "Uzkodas", "užkandžiai", "užkandžiai ir saldumynai", "duona-pusryciai", "Duona ir pusryčiai", "Bread & breakfast", "Maize", "duona ir trapučiai", "paplotėliai", "dumbliai", "Dumbliai", "Algae", "Aļģes", "super-maistas", "Super maistas", "Super food", "Super pārtika", "super maistas", "Užkandžiai ir paplotėliai", "Snacks & crispbreads", "Uzkodas un plāceņi"] },
 ];
 
-// -------------------- SVEIKATA --------------------
-export const healthCategories: Category[] = [
-  { id: 'vitaminai-mineralai', slug: 'vitaminai-mineralai', name: { lt: 'Vitaminai ir mineralai', en: 'Vitamins & minerals', lv: 'Vitamīni' }, icon: Pill,
-    tags: ['vitaminai-mineralai'] },
-  { id: 'aminorugstys', slug: 'aminorugstys', name: { lt: 'Aminorūgštys', en: 'Amino acids', lv: 'Aminoskābes' }, icon: Pill,
-    tags: ['aminorūgštys'] },
-  { id: 'antioksidantai', slug: 'antioksidantai', name: { lt: 'Antioksidantai', en: 'Antioxidants', lv: 'Antioksidanti' }, icon: Shield,
-    tags: ['antioksidantai'] },
-  { id: 'imunitetui', slug: 'imunitetui', name: { lt: 'Imunitetui', en: 'Immunity', lv: 'Imunitātei' }, icon: Shield,
-    tags: ['pagalba imunitetui'] },
-  { id: 'virskinimui', slug: 'virskinimui', name: { lt: 'Virškinimui', en: 'Digestion', lv: 'Gremošanai' }, icon: HeartPulse,
-    tags: ['sveikas virškinimas', 'žarnynui'] },
-  { id: 'sirdziai', slug: 'sirdziai', name: { lt: 'Širdžiai', en: 'Heart', lv: 'Sirdij' }, icon: HeartPulse,
-    tags: ['sveika širdis'] },
-  { id: 'sanariams', slug: 'sanariams', name: { lt: 'Sąnariams ir kaulams', en: 'Joints & bones', lv: 'Locītavām' }, icon: HeartPulse,
-    tags: ['sveiki sąnariai ir kaulai'] },
-  { id: 'kepenims', slug: 'kepenims', name: { lt: 'Kepenims', en: 'Liver', lv: 'Aknām' }, icon: HeartPulse,
-    tags: ['pagalba kepenims'] },
-  { id: 'atminciai', slug: 'atminciai', name: { lt: 'Atminčiai', en: 'Memory', lv: 'Atmiņai' }, icon: Brain,
-    tags: ['atminčiai'] },
-  { id: 'moterims', slug: 'moterims', name: { lt: 'Moterims', en: 'For women', lv: 'Sievietēm' }, icon: User,
-    tags: ['moterims', 'moterų sveikata'] },
-  { id: 'vyrams', slug: 'vyrams', name: { lt: 'Vyrams', en: 'For men', lv: 'Vīriešiem' }, icon: User,
-    tags: ['vyrams', 'vyrų sveikata'] },
-  { id: 'eteriniai-aliejai', slug: 'eteriniai-aliejai', name: { lt: 'Eteriniai aliejai', en: 'Essential oils', lv: 'Ēteriskās eļļas' }, icon: Droplet,
-    tags: ['eteriniai aliejai'] },
-  { id: 'smilkalai', slug: 'smilkalai', name: { lt: 'Smilkalai', en: 'Incense', lv: 'Vīraki' }, icon: Flame,
-    tags: ['smilkalai'] },
-  { id: 'nuo-vabzdziu', slug: 'nuo-vabzdziu', name: { lt: 'Nuo vabzdžių', en: 'Insect repellents', lv: 'Pret insektiem' }, icon: Bug,
-    tags: ['priemonės nuo vabzdžių'] },
-  { id: 'sildykles', slug: 'sildykles', name: { lt: 'Šildyklės', en: 'Warmers', lv: 'Sildītāji' }, icon: Flame,
-    tags: ['šildyklės'] },
-  { id: 'masaziniai-aparatai', slug: 'masaziniai-aparatai', name: { lt: 'Masažiniai aparatai', en: 'Massagers', lv: 'Masāžas' }, icon: HandIcon,
-    tags: ['masažiniai aparatai'] },
-  { id: 'gintaras', slug: 'gintaras', name: { lt: 'Gintaro karoliai', en: 'Amber necklaces', lv: 'Dzintara' }, icon: Gem,
-    tags: ['gintaro karoliai'] },
-];
-
-// -------------------- KOSMETIKA --------------------
 export const cosmeticsCategories: Category[] = [
-  { id: 'veidui', slug: 'kosmetika-veidui', name: { lt: 'Veidui', en: 'Face', lv: 'Sejai' }, icon: Smile,
-    tags: ['ekologiškos veido priežiūros priemonės', 'veidui ir kūnui'] },
-  { id: 'kunui', slug: 'kosmetika-kunui', name: { lt: 'Kūnui', en: 'Body', lv: 'Ķermenim' }, icon: HandIcon,
-    tags: ['ekologiški prausikliai kūnui', 'sviestai (vietoj kremo)'] },
-  { id: 'plaukams', slug: 'kosmetika-plaukams', name: { lt: 'Plaukams', en: 'Hair', lv: 'Matiem' }, icon: Scissors,
-    tags: ['ekologiškos priemonės plaukams', 'plaukų dažai'] },
-  { id: 'rankoms', slug: 'kosmetika-rankoms', name: { lt: 'Rankoms', en: 'Hands', lv: 'Rokām' }, icon: Hand,
-    tags: ['rankų kremai'] },
-  { id: 'kaukes', slug: 'kosmetika-kaukes', name: { lt: 'Kaukės', en: 'Masks', lv: 'Maskas' }, icon: Smile,
-    tags: ['ekologiškos kaukės'] },
-  { id: 'dezodorantai', slug: 'dezodorantai', name: { lt: 'Dezodorantai', en: 'Deodorants', lv: 'Dezodoranti' }, icon: SprayCan,
-    tags: ['dezodorantai'] },
-  { id: 'burnos-higiena', slug: 'burnos-higiena', name: { lt: 'Burnos higienai', en: 'Oral care', lv: 'Mutes higiēnai' }, icon: Smile,
-    tags: ['ekologiškos priemonės burnos higienai'] },
-  { id: 'nuo-saules', slug: 'nuo-saules', name: { lt: 'Nuo saulės', en: 'Sun care', lv: 'Pret sauli' }, icon: Sun,
-    tags: ['ekologiški kremai nuo saulės'] },
-  { id: 'maudynems', slug: 'maudynems', name: { lt: 'Maudynėms ir muilai', en: 'Bath & soap', lv: 'Vannām un ziepēm' }, icon: Bath,
-    tags: ['maudynėms', 'muilai'] },
-  { id: 'moliai', slug: 'moliai', name: { lt: 'Moliai', en: 'Clays', lv: 'Māli' }, icon: Palette,
-    tags: ['natūralūs moliai'] },
-  { id: 'zvakes', slug: 'zvakes', name: { lt: 'Žvakės', en: 'Candles', lv: 'Sveces' }, icon: Flame,
-    tags: ['natūralios žvakės'] },
-  { id: 'pilingo-pirstines', slug: 'pilingo-pirstines', name: { lt: 'Pilingo pirštinės', en: 'Peeling gloves', lv: 'Pīlinga cimdi' }, icon: HandIcon,
-    tags: ['pilingo pirštinės'] },
-  { id: 'kosmetikos-aliejai', slug: 'kosmetikos-aliejai', name: { lt: 'Kosmetiniai aliejai', en: 'Cosmetic oils', lv: 'Kosmētiskās eļļas' }, icon: Droplet,
-    tags: ['kosmetiniai aliejai', 'kosmetikos aliejai'] },
+  { id: "burnos-higiena", slug: "burnos-higiena", name: {"lt": "Burnos ir kasdienė higiena", "en": "Oral & daily hygiene", "lv": "Mutes un ikdienas higiēna"}, icon: icon("s-oral"), tags: ["burnos-higiena", "Burnos higienai", "Oral care", "Mutes higiēnai", "ekologiškos priemonės burnos higienai", "dezodorantai", "Dezodorantai", "Deodorants", "Dezodoranti", "Burnos ir kasdienė higiena", "Oral & daily hygiene", "Mutes un ikdienas higiēna"] },
+  { id: "eteriniai-aliejai", slug: "eteriniai-aliejai", name: {"lt": "Eteriniai aliejai", "en": "Essential oils", "lv": "Ēteriskās eļļas"}, icon: icon("s-oils"), tags: ["eteriniai-aliejai", "Eteriniai aliejai", "Essential oils", "Ēteriskās eļļas"] },
+  { id: "kuno-prieziura", slug: "kuno-prieziura", name: {"lt": "Kūno priežiūra ir muilai", "en": "Body care & soaps", "lv": "Ķermeņa kopšana un ziepes"}, icon: icon("s-soap"), tags: ["kosmetika-kunui", "Kūnui", "Body", "Ķermenim", "ekologiški prausikliai kūnui", "sviestai (vietoj kremo)", "kosmetika-rankoms", "Rankoms", "Hands", "Rokām", "rankų kremai", "maudynems", "Maudynėms ir muilai", "Bath & soap", "Vannām un ziepēm", "maudynėms", "muilai", "nuo-saules", "Nuo saulės", "Sun care", "Pret sauli", "ekologiški kremai nuo saulės", "pilingo-pirstines", "Pilingo pirštinės", "Peeling gloves", "Pīlinga cimdi", "pilingo pirštinės", "kosmetikos-aliejai", "Kosmetiniai aliejai", "Cosmetic oils", "Kosmētiskās eļļas", "kosmetiniai aliejai", "kosmetikos aliejai", "Kūno priežiūra ir muilai", "Body care & soaps", "Ķermeņa kopšana un ziepes"] },
+  { id: "plauku-prieziura", slug: "plauku-prieziura", name: {"lt": "Plaukų priežiūra ir dažai", "en": "Hair care & colour", "lv": "Matu kopšana un krāsas"}, icon: icon("s-hair"), tags: ["kosmetika-plaukams", "Plaukams", "Hair", "Matiem", "ekologiškos priemonės plaukams", "plaukų dažai", "Plaukų priežiūra ir dažai", "Hair care & colour", "Matu kopšana un krāsas"] },
+  { id: "veido-prieziura", slug: "veido-prieziura", name: {"lt": "Veido priežiūra, moliai ir kaukės", "en": "Face care, clays & masks", "lv": "Sejas kopšana, māli un maskas"}, icon: icon("s-face"), tags: ["kosmetika-veidui", "Veidui", "Face", "Sejai", "ekologiškos veido priežiūros priemonės", "veidui ir kūnui", "kosmetika-kaukes", "Kaukės", "Masks", "Maskas", "ekologiškos kaukės", "moliai", "Moliai", "Clays", "Māli", "natūralūs moliai", "Veido priežiūra, moliai ir kaukės", "Face care, clays & masks", "Sejas kopšana, māli un maskas"] },
 ];
 
-// -------------------- BUIČIAI --------------------
-export const lifestyleCategories: Category[] = [
-  { id: 'skalbimui', slug: 'skalbimui', name: { lt: 'Skalbimui', en: 'Laundry', lv: 'Mazgāšanai' }, icon: WashingMachine,
-    tags: ['ekologiškos priemonės skalbimui'] },
-  { id: 'valikliai', slug: 'valikliai', name: { lt: 'Valikliai', en: 'Cleaners', lv: 'Tīrīšanas' }, icon: SprayCan,
-    tags: ['ekologiški valikliai'] },
-  { id: 'indu-plovimas', slug: 'indu-plovimas', name: { lt: 'Indų plovimui', en: 'Dishwashing', lv: 'Trauku mazgāšanai' }, icon: GlassWater,
-    tags: ['ekologiški indų plovikliai'] },
-  { id: 'indaplovei', slug: 'indaplovei', name: { lt: 'Indaplovei', en: 'Dishwasher', lv: 'Trauku mazgājamai mašīnai' }, icon: GlassWater,
-    tags: ['ekologiškos priemonės indaplovei'] },
-  { id: 'tualetinis-popierius', slug: 'tualetinis-popierius', name: { lt: 'Tualetinis popierius', en: 'Toilet paper', lv: 'Tualetes papīrs' }, icon: ScrollText,
-    tags: ['tualetinis popierius'] },
-  { id: 'sauskelnes', slug: 'sauskelnes', name: { lt: 'Sauskelnės', en: 'Diapers', lv: 'Autiņi' }, icon: Baby,
-    tags: ['sauskelnės'] },
-  { id: 'daugkartines', slug: 'daugkartines', name: { lt: 'Daugkartinės', en: 'Reusables', lv: 'Atkārtoti lietojamas' }, icon: Recycle,
-    tags: ['daugkartinės'] },
+export const healthCategories: Category[] = [
+  { id: "augaliniai-papildai", slug: "augaliniai-papildai", name: {"lt": "Augaliniai ir kiti papildai", "en": "Herbal & other supplements", "lv": "Augu un citi uztura bagātinātāji"}, icon: icon("s-herbal"), tags: ["vitaminai-mineralai", "Vitaminai ir mineralai", "Vitamins & minerals", "Vitamīni", "aminorugstys", "Aminorūgštys", "Amino acids", "Aminoskābes", "aminorūgštys", "antioksidantai", "Antioksidantai", "Antioxidants", "Antioksidanti", "imunitetui", "Imunitetui", "Immunity", "Imunitātei", "pagalba imunitetui", "virskinimui", "Virškinimui", "Digestion", "Gremošanai", "sveikas virškinimas", "žarnynui", "sirdziai", "Širdžiai", "Heart", "Sirdij", "sveika širdis", "sanariams", "Sąnariams ir kaulams", "Joints & bones", "Locītavām", "sveiki sąnariai ir kaulai", "kepenims", "Kepenims", "Liver", "Aknām", "pagalba kepenims", "atminciai", "Atminčiai", "Memory", "Atmiņai", "atminčiai", "moterims", "Moterims", "For women", "Sievietēm", "moterų sveikata", "vyrams", "Vyrams", "For men", "Vīriešiem", "vyrų sveikata", "augaliniai papildai", "maisto papildai", "Augaliniai ir kiti papildai", "Herbal & other supplements", "Augu un citi uztura bagātinātāji"] },
+  { id: "probiotikai-kolagenas-omega3", slug: "probiotikai-kolagenas-omega3", name: {"lt": "Probiotikai, kolagenas ir omega-3", "en": "Probiotics, collagen & omega-3", "lv": "Probiotikas, kolagēns un omega-3"}, icon: icon("s-supps"), tags: ["probiotikai", "kolagenas", "omega-3", "Probiotikai, kolagenas ir omega-3", "Probiotics, collagen & omega-3", "Probiotikas, kolagēns un omega-3"] },
 ];
 
-// -------------------- SĖJAI --------------------
-export const sowingCategories: Category[] = [
-  { id: 'seklos-sejai', slug: 'seklos-sejai', name: { lt: 'Sėklos', en: 'Seeds', lv: 'Sēklas' }, icon: Sprout,
-    tags: ['sėklos', 'sėklos sėjai'] },
-  { id: 'augalai', slug: 'augalai', name: { lt: 'Augalai', en: 'Plants', lv: 'Augi' }, icon: TreePine,
-    tags: ['augalai'] },
-];
-
-// -------------------- ATŽALOMS --------------------
-export const sproutCategories: Category[] = [
-  { id: 'kauciukiniai-zaislai', slug: 'kauciukiniai-zaislai', name: { lt: 'Kaučiuko žaisliukai', en: 'Rubber toys', lv: 'Gumijas rotaļlietas' }, icon: Rabbit,
-    tags: ['kaučiukiniai žaislai'] },
-  { id: 'mediniai-zaislai', slug: 'mediniai-zaislai', name: { lt: 'Mediniai žaisliukai', en: 'Wooden toys', lv: 'Koka rotaļlietas' }, icon: ToyBrick,
-    tags: ['mediniai žaislai'] },
-  { id: 'kramtukai', slug: 'kramtukai', name: { lt: 'Kramtukai', en: 'Teethers', lv: 'Kožamie' }, icon: Baby,
-    tags: ['kramtukai'] },
-  { id: 'barskuciai', slug: 'barskuciai', name: { lt: 'Barškučiai', en: 'Rattles', lv: 'Grabuļi' }, icon: Music,
-    tags: ['barškučiai', 'skleidžiantys garsą'] },
-  { id: 'virveles', slug: 'virveles', name: { lt: 'Virvelės', en: 'Cords', lv: 'Auklas' }, icon: Baby,
-    tags: ['virvelės čiulptukui', 'virvelės vežimėliui'] },
-  { id: 'lelytes', slug: 'lelytes', name: { lt: 'Lėlyčiukai', en: 'Small dolls', lv: 'Mazās lelles' }, icon: Baby,
-    tags: ['maži   lėlyčiukai', 'maži lėlyčiukai'] },
-  { id: 'vaikams', slug: 'vaikams-visa', name: { lt: 'Vaikams', en: 'Kids', lv: 'Bērniem' }, icon: Baby,
-    tags: ['vaikams', 'kūdikiams ir  vaikams', 'kūdikiams ir vaikams', 'komplektas vaikams'] },
-];
-
-// -------------------- NAMAMS --------------------
 export const homeCategories: Category[] = [
-  { id: 'vandens-gryninimas', slug: 'vandens-gryninimas', name: { lt: 'Vandens gryninimui', en: 'Water purification', lv: 'Ūdens attīrīšanai' }, icon: Droplets,
-    tags: ['vandens gryninimui'] },
-  { id: 'silko-patalai', slug: 'silko-patalai', name: { lt: 'Šilko patalai', en: 'Silk bedding', lv: 'Zīda gultas veļa' }, icon: BedDouble,
-    tags: ['natūralūs šilko patalai', 'šilko pataliukai'] },
-  { id: 'pagalves', slug: 'pagalves', name: { lt: 'Pagalvės', en: 'Pillows', lv: 'Spilveni' }, icon: BedDouble,
-    tags: ['pagalvės'] },
-  { id: 'antklodes', slug: 'antklodes', name: { lt: 'Antklodės', en: 'Blankets', lv: 'Segas' }, icon: BedDouble,
-    tags: ['antklodės'] },
-  { id: 'vilna', slug: 'vilna', name: { lt: 'Vilna', en: 'Wool', lv: 'Vilna' }, icon: Cloud,
-    tags: ['vilna', 'vilna/šilkas'] },
-  { id: 'medvilne', slug: 'medvilne', name: { lt: 'Medvilnė', en: 'Cotton', lv: 'Kokvilna' }, icon: Feather,
-    tags: ['medvilnė'] },
+  { id: "indu-plovimas", slug: "indu-plovimas", name: {"lt": "Indų plovimas", "en": "Dishwashing", "lv": "Trauku mazgāšana"}, icon: icon("s-dishes"), tags: ["indu-plovimas", "Indų plovimui", "Dishwashing", "Trauku mazgāšanai", "ekologiški indų plovikliai", "indaplovei", "Indaplovei", "Dishwasher", "Trauku mazgājamai mašīnai", "ekologiškos priemonės indaplovei", "indų plovimo priemonės", "Indų plovimas", "Trauku mazgāšana"] },
+  { id: "namu-reikmenys", slug: "namu-reikmenys", name: {"lt": "Kiti namų reikmenys ir paslaugos", "en": "Other home goods & services", "lv": "Citas mājas preces un pakalpojumi"}, icon: icon("s-misc"), tags: ["tualetinis-popierius", "Tualetinis popierius", "Toilet paper", "Tualetes papīrs", "tualetinis popierius", "sauskelnes", "Sauskelnės", "Diapers", "Autiņi", "sauskelnės", "daugkartines", "Daugkartinės", "Reusables", "Atkārtoti lietojamas", "daugkartinės", "vandens-gryninimas", "Vandens gryninimui", "Water purification", "Ūdens attīrīšanai", "vandens gryninimui", "pagalves", "Pagalvės", "Pillows", "Spilveni", "pagalvės", "antklodes", "Antklodės", "Blankets", "Segas", "antklodės", "vilna", "Vilna", "Wool", "vilna/šilkas", "medvilne", "Medvilnė", "Cotton", "Kokvilna", "medvilnė", "kauciukiniai-zaislai", "Kaučiuko žaisliukai", "Rubber toys", "Gumijas rotaļlietas", "kaučiukiniai žaislai", "mediniai-zaislai", "Mediniai žaisliukai", "Wooden toys", "Koka rotaļlietas", "mediniai žaislai", "kramtukai", "Kramtukai", "Teethers", "Kožamie", "barskuciai", "Barškučiai", "Rattles", "Grabuļi", "barškučiai", "skleidžiantys garsą", "virveles", "Virvelės", "Cords", "Auklas", "virvelės čiulptukui", "virvelės vežimėliui", "lelytes", "Lėlyčiukai", "Small dolls", "Mazās lelles", "maži   lėlyčiukai", "maži lėlyčiukai", "vaikams-visa", "Vaikams", "Kids", "Bērniem", "vaikams", "kūdikiams ir  vaikams", "kūdikiams ir vaikams", "komplektas vaikams", "aksesuarai", "Aksesuarai", "Accessories", "Aksesuāri", "apranga-unisex", "Unisex", "unisex", "smilkalai", "Smilkalai", "Incense", "Vīraki", "nuo-vabzdziu", "Nuo vabzdžių", "Insect repellents", "Pret insektiem", "priemonės nuo vabzdžių", "sildykles", "Šildyklės", "Warmers", "Sildītāji", "šildyklės", "masaziniai-aparatai", "Masažiniai aparatai", "Massagers", "Masāžas", "masažiniai aparatai", "gintaras", "Gintaro karoliai", "Amber necklaces", "Dzintara", "gintaro karoliai", "zvakes", "Žvakės", "Candles", "Sveces", "natūralios žvakės", "namų apyvokos reikmenys", "Kiti namų reikmenys ir paslaugos", "Other home goods & services", "Citas mājas preces un pakalpojumi"] },
+  { id: "skalbimui", slug: "skalbimui", name: {"lt": "Skalbimas", "en": "Laundry", "lv": "Veļas mazgāšana"}, icon: icon("s-laundry"), tags: ["skalbimui", "Skalbimui", "Laundry", "Mazgāšanai", "ekologiškos priemonės skalbimui", "skalbimo priemonės", "Skalbimas", "Veļas mazgāšana"] },
+  { id: "valikliai", slug: "valikliai", name: {"lt": "Valikliai ir dezinfekcija", "en": "Cleaners & disinfection", "lv": "Tīrīšana un dezinfekcija"}, icon: icon("s-clean"), tags: ["valikliai", "Valikliai", "Cleaners", "Tīrīšanas", "ekologiški valikliai", "Valikliai ir dezinfekcija", "Cleaners & disinfection", "Tīrīšana un dezinfekcija"] },
+  { id: "silko-patalai", slug: "silko-patalai", name: {"lt": "Šilko patalynė", "en": "Silk bedding", "lv": "Zīda gultas veļa"}, icon: icon("s-silk"), tags: ["silko-patalai", "Šilko patalai", "Silk bedding", "Zīda gultas veļa", "natūralūs šilko patalai", "šilko pataliukai", "Šilko patalynė"] },
 ];
 
-// -------------------- APRANGA --------------------
-export const apparelCategories: Category[] = [
-  { id: 'aksesuarai', slug: 'aksesuarai', name: { lt: 'Aksesuarai', en: 'Accessories', lv: 'Aksesuāri' }, icon: Shirt,
-    tags: ['aksesuarai'] },
-  { id: 'apranga-unisex', slug: 'apranga-unisex', name: { lt: 'Unisex', en: 'Unisex', lv: 'Unisex' }, icon: Shirt,
-    tags: ['unisex'] },
+export const sowingCategories: Category[] = [
+  { id: "agurkai-moliugai-paprikos", slug: "agurkai-moliugai-paprikos", name: {"lt": "Agurkai, moliūgai ir paprikos", "en": "Cucumbers, squash & peppers", "lv": "Gurķi, ķirbji un paprika"}, icon: icon("s-squash"), tags: ["agurkai", "moliūgai", "paprikos", "Agurkai, moliūgai ir paprikos", "Cucumbers, squash & peppers", "Gurķi, ķirbji un paprika"] },
+  { id: "pomidorai", slug: "pomidorai", name: {"lt": "Pomidorai", "en": "Tomatoes", "lv": "Tomāti"}, icon: icon("s-tomato"), tags: ["pomidorai", "Pomidorai", "Tomatoes", "Tomāti"] },
+  { id: "salotos-zoleles", slug: "salotos-zoleles", name: {"lt": "Salotos, lapinės daržovės ir žolelės", "en": "Lettuce, leafy greens & herbs", "lv": "Salāti, lapu dārzeņi un garšaugi"}, icon: icon("s-greens"), tags: ["salotos", "lapinės daržovės", "žolelės", "Salotos, lapinės daržovės ir žolelės", "Lettuce, leafy greens & herbs", "Salāti, lapu dārzeņi un garšaugi"] },
+  { id: "sakniavaisiai-pupos-zirniai", slug: "sakniavaisiai-pupos-zirniai", name: {"lt": "Šakniavaisiai, pupos ir žirniai", "en": "Root vegetables, beans & peas", "lv": "Sakņaugi, pupas un zirņi"}, icon: icon("s-roots"), tags: ["šakniavaisiai", "pupos", "žirniai", "Šakniavaisiai, pupos ir žirniai", "Root vegetables, beans & peas", "Sakņaugi, pupas un zirņi"] },
 ];
 
-// -------------------- MAIN NAV --------------------
 export const mainNavCategories = [
-  { id: 'maistas', slug: 'maistas', name: { lt: 'Maistas', en: 'Food', lv: 'Ēdiens' } },
-  { id: 'sveikatai', slug: 'sveikatai', name: { lt: 'Sveikatai', en: 'Health', lv: 'Veselībai' } },
-  { id: 'kosmetika', slug: 'kosmetika', name: { lt: 'Kosmetika', en: 'Cosmetics', lv: 'Kosmētika' } },
-  { id: 'buiciai', slug: 'buiciai', name: { lt: 'Buičiai', en: 'Household', lv: 'Mājsaimniecība' } },
-  { id: 'sejai', slug: 'sejai', name: { lt: 'Sėjai', en: 'Sowing', lv: 'Sēšana' } },
-  { id: 'atzaloms', slug: 'atzaloms', name: { lt: 'Atžaloms', en: 'For kids', lv: 'Bērniem' } },
-  { id: 'namams', slug: 'namams', name: { lt: 'Namams', en: 'Home', lv: 'Mājām' } },
-  { id: 'apranga', slug: 'apranga', name: { lt: 'Apranga', en: 'Apparel', lv: 'Apģērbs' } },
-  { id: 'akcijos', slug: 'akcijos', name: { lt: 'Akcijos', en: 'Deals', lv: 'Akcijas' } },
+  {"id": "maistas", "slug": "maistas", "name": {"lt": "Maistas", "en": "Food", "lv": "Pārtika"}},
+  {"id": "kosmetika", "slug": "kosmetika", "name": {"lt": "Grožiui", "en": "Beauty", "lv": "Skaistumam"}},
+  {"id": "sveikatai", "slug": "sveikatai", "name": {"lt": "Sveikatai", "en": "Health", "lv": "Veselībai"}},
+  {"id": "namams", "slug": "namams", "name": {"lt": "Namams", "en": "Home", "lv": "Mājām"}},
+  {"id": "sejai", "slug": "sejai", "name": {"lt": "Sėjai", "en": "Sowing", "lv": "Sēšanai"}},
 ];
+export const mainCategoryMap: Record<string, Category[]> = { maistas: foodCategories, kosmetika: cosmeticsCategories, sveikatai: healthCategories, namams: homeCategories, sejai: sowingCategories };
+export const categorySlugAliases: Record<string, string> = {"buiciai": "namams", "atzaloms": "namams", "apranga": "namams", "groziui": "kosmetika", "aliejai": "aliejai-padazai-konservai", "padazai-prieskoniai": "aliejai-padazai-konservai", "darzoves": "aliejai-padazai-konservai", "kava": "kava-kakava-gerimai", "kakava": "kava-kakava-gerimai", "kruopos-grudai": "kruopos-ryziai-ankstiniai", "ankstiniai": "kruopos-ryziai-ankstiniai", "makaronai": "makaronai", "miltai": "miltai-kepimas", "saldikliai": "miltai-kepimas", "standikliai": "miltai-kepimas", "druska-soda": "prieskoniai-druska-sultiniai", "sultiniai": "prieskoniai-druska-sultiniai", "sekklos-riesutai": "riesutai-seklos-vaisiai", "vaisiai-uogos": "riesutai-seklos-vaisiai", "saldumynai": "saldumynai-batoneliai", "uzkandziai": "uzkandziai-paploteliai", "duona-pusryciai": "uzkandziai-paploteliai", "dumbliai": "uzkandziai-paploteliai", "super-maistas": "uzkandziai-paploteliai", "burnos-higiena": "burnos-higiena", "dezodorantai": "burnos-higiena", "eteriniai-aliejai": "eteriniai-aliejai", "kosmetika-kunui": "kuno-prieziura", "kosmetika-rankoms": "kuno-prieziura", "maudynems": "kuno-prieziura", "nuo-saules": "kuno-prieziura", "pilingo-pirstines": "kuno-prieziura", "kosmetikos-aliejai": "kuno-prieziura", "kosmetika-plaukams": "plauku-prieziura", "kosmetika-veidui": "veido-prieziura", "kosmetika-kaukes": "veido-prieziura", "moliai": "veido-prieziura", "vitaminai-mineralai": "augaliniai-papildai", "aminorugstys": "augaliniai-papildai", "antioksidantai": "augaliniai-papildai", "imunitetui": "augaliniai-papildai", "virskinimui": "augaliniai-papildai", "sirdziai": "augaliniai-papildai", "sanariams": "augaliniai-papildai", "kepenims": "augaliniai-papildai", "atminciai": "augaliniai-papildai", "moterims": "augaliniai-papildai", "vyrams": "augaliniai-papildai", "indu-plovimas": "indu-plovimas", "indaplovei": "indu-plovimas", "tualetinis-popierius": "namu-reikmenys", "sauskelnes": "namu-reikmenys", "daugkartines": "namu-reikmenys", "vandens-gryninimas": "namu-reikmenys", "pagalves": "namu-reikmenys", "antklodes": "namu-reikmenys", "vilna": "namu-reikmenys", "medvilne": "namu-reikmenys", "kauciukiniai-zaislai": "namu-reikmenys", "mediniai-zaislai": "namu-reikmenys", "kramtukai": "namu-reikmenys", "barskuciai": "namu-reikmenys", "virveles": "namu-reikmenys", "lelytes": "namu-reikmenys", "vaikams-visa": "namu-reikmenys", "aksesuarai": "namu-reikmenys", "apranga-unisex": "namu-reikmenys", "smilkalai": "namu-reikmenys", "nuo-vabzdziu": "namu-reikmenys", "sildykles": "namu-reikmenys", "masaziniai-aparatai": "namu-reikmenys", "gintaras": "namu-reikmenys", "zvakes": "namu-reikmenys", "skalbimui": "skalbimui", "valikliai": "valikliai", "silko-patalai": "silko-patalai"};
+export function resolveCategorySlug(slug: string) { return categorySlugAliases[slug] ?? slug; }
+export const mainNavTagAliases: Record<string, string> = {"maistas": "maistas", "sveikata": "sveikatai", "sveikatai": "sveikatai", "ekologiška kosmetika": "kosmetika", "kosmetika": "kosmetika", "grožiui": "kosmetika", "ekologiškos priemonės buičiai": "namams", "buičiai": "namams", "buiciai": "namams", "namams": "namams", "sėjai": "sejai", "sejai": "sejai", "sėklos sėjai": "sejai", "sėklos": "sejai", "atžaloms": "namams", "apranga": "namams"};
 
-/** Mapping from main-nav slug → subcategory list */
-export const mainCategoryMap: Record<string, Category[]> = {
-  maistas: foodCategories,
-  sveikatai: healthCategories,
-  kosmetika: cosmeticsCategories,
-  buiciai: lifestyleCategories,
-  sejai: sowingCategories,
-  atzaloms: sproutCategories,
-  namams: homeCategories,
-  apranga: apparelCategories,
-};
-
-// -------------------- TAG → CATEGORY MAPPING --------------------
-
-/** Build lookup: normalized shopify tag → { mainSlug, subSlug } */
-const tagLookup: Map<string, { mainSlug: string; subSlug: string }> = (() => {
-  const m = new Map<string, { mainSlug: string; subSlug: string }>();
-  for (const [mainSlug, subs] of Object.entries(mainCategoryMap)) {
-    for (const sub of subs) {
-      const aliases = new Set<string>([
-        ...(sub.tags ?? []),
-        sub.slug,
-        sub.name.lt,
-        sub.name.en,
-        sub.name.lv,
-      ]);
-      for (const a of aliases) {
-        if (a) m.set(norm(a), { mainSlug, subSlug: sub.slug });
+export interface CategoryMatch { mainSlugs: string[]; subSlugs: string[]; }
+export function getCategoryFromTags(tags: string[]): CategoryMatch {
+  const explicitMains = new Set(tags.map(t => mainNavTagAliases[norm(t)]).filter(Boolean));
+  const mainSlugs = new Set(explicitMains);
+  const subSlugs = new Set<string>();
+  for (const raw of tags) {
+    const key = norm(raw);
+    for (const [main, subs] of Object.entries(mainCategoryMap)) {
+      if (explicitMains.size && !explicitMains.has(main)) continue;
+      for (const sub of subs) {
+        if ([sub.slug, ...Object.values(sub.name), ...(sub.tags ?? [])].some(a => norm(a) === key)) {
+          mainSlugs.add(main); subSlugs.add(sub.slug);
+        }
       }
     }
   }
-  // Aliases for uppercase main-nav tags used in Shopify
-  return m;
-})();
-
-/**
- * Main-nav tag aliases: some Shopify tags map directly to a main nav category
- * without a specific subcategory (e.g. "MAISTAS", "SVEIKATA").
- */
-export const mainNavTagAliases: Record<string, string> = {
-  maistas: 'maistas',
-  sveikata: 'sveikatai',
-  'ekologiška kosmetika': 'kosmetika',
-  'ekologiškos priemonės buičiai': 'buiciai',
-  namams: 'namams',
-  sėjai: 'sejai',
-  atžaloms: 'atzaloms',
-  apranga: 'apranga',
-  išpardavimas: 'akcijos',
-};
-
-export interface CategoryMatch {
-  mainSlugs: string[];
-  subSlugs: string[];
+  return { mainSlugs: [...mainSlugs], subSlugs: [...subSlugs] };
 }
-
-/**
- * Map a product's Shopify tags to matching main nav & subcategory slugs.
- * A product can belong to multiple sections (e.g. "MAISTAS" + "Kava").
- */
-export function getCategoryFromTags(tags: string[]): CategoryMatch {
-  const mainSlugs = new Set<string>();
-  const subSlugs = new Set<string>();
-  // First pass: collect explicit main-nav slugs from top-level tag aliases
-  const explicitMains = new Set<string>();
-  for (const raw of tags) {
-    const alias = mainNavTagAliases[norm(raw)];
-    if (alias) explicitMains.add(alias);
-  }
-  for (const raw of tags) {
-    const key = norm(raw);
-    const sub = tagLookup.get(key);
-    if (sub) {
-      // If the product declares explicit main-nav sections, only accept
-      // subcategory matches that belong to one of those sections. This
-      // prevents ambiguous tags like "aliejai" from mapping a cosmetic
-      // product into the food "Aliejai" subcategory.
-      if (explicitMains.size > 0 && !explicitMains.has(sub.mainSlug)) continue;
-      mainSlugs.add(sub.mainSlug);
-      subSlugs.add(sub.subSlug);
-      continue;
-    }
-    const mainAlias = mainNavTagAliases[key];
-    if (mainAlias) mainSlugs.add(mainAlias);
-  }
-  return { mainSlugs: Array.from(mainSlugs), subSlugs: Array.from(subSlugs) };
-}
-
-/** Convenience: does the product belong to a given subcategory slug? */
-export function productMatchesSubcategory(tags: string[], subSlug: string): boolean {
-  return getCategoryFromTags(tags).subSlugs.includes(subSlug);
-}
-
-/** Convenience: does the product belong to a given main-nav slug? */
-export function productMatchesMain(tags: string[], mainSlug: string): boolean {
-  return getCategoryFromTags(tags).mainSlugs.includes(mainSlug);
-}
+export function productMatchesSubcategory(tags: string[], slug: string) { return getCategoryFromTags(tags).subSlugs.includes(resolveCategorySlug(slug)); }
+export function productMatchesMain(tags: string[], slug: string) { return getCategoryFromTags(tags).mainSlugs.includes(resolveCategorySlug(slug)); }

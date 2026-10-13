@@ -12,10 +12,10 @@ export function CategoryTile({ category }: CategoryTileProps) {
   return (
     <Link
       to={`/${lang}/products/${category.slug}`}
-      className="group relative aspect-square rounded-xl overflow-hidden border border-border bg-secondary hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 p-4"
+      className="group flex items-center gap-2 rounded-sm bg-secondary px-3 py-2 text-foreground hover:bg-accent transition-colors min-w-0"
     >
-      <category.icon className="w-10 h-10 md:w-12 md:h-12 text-primary group-hover:scale-110 transition-transform duration-300" />
-      <span className="font-semibold text-base md:text-lg text-foreground text-center leading-tight">
+      <category.icon className="w-4 h-4 shrink-0 text-primary" />
+      <span className="text-sm leading-5">
         {category.name[lang]}
       </span>
     </Link>

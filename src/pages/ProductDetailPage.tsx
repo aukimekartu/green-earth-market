@@ -1,3 +1,4 @@
+import { getPackagePrice, stockKey } from '@/lib/productPresentation';
 import { formatPrice } from '@/lib/utils';
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -41,11 +42,11 @@ const ProductDetailPage = () => {
   const fav = isFavorite(product.handle);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pb-24 lg:pb-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Image */}
         <div>
-          <div className="aspect-square bg-secondary/30 rounded-2xl overflow-hidden">
+          <div className="aspect-square bg-background overflow-hidden">
             <img
               src={product.images[activeImage] ?? product.image}
               alt={product.title}
@@ -55,7 +56,7 @@ const ProductDetailPage = () => {
           {product.images.length > 1 && (
             <div className="flex gap-2 mt-3">
               {product.images.map((img, i) => (
-                <button
+                <Button variant="ghost" size="icon"
                   key={i}
                   type="button"
                   onClick={() => setActiveImage(i)}
@@ -65,7 +66,7 @@ const ProductDetailPage = () => {
                   )}
                 >
                   <img src={img} alt="" className="w-full h-full object-contain p-1" />
-                </button>
+                </Button>
               ))}
             </div>
           )}
@@ -73,17 +74,18 @@ const ProductDetailPage = () => {
 
         {/* Info */}
         <div>
-          <div className="bg-secondary rounded-2xl p-6 md:p-8 torn-edge-bottom relative">
-            <h1 className="text-3xl md:text-4xl text-foreground mb-4">{product.title}</h1>
+          <div className="py-2 relative">
+            <h1 className="text-[32px] leading-10 text-foreground mb-4">{product.title}</h1>
 
             <ProductBadges product={product} size="md" className="mb-4" />
 
             <div className="flex items-baseline gap-3 mb-4">
-              <span className="bg-primary text-primary-foreground text-2xl font-bold px-4 py-2 rounded-lg font-sans">
+              <span className="text-2xl font-semibold tabular">
                 {formatPrice(product.price)}
               </span>
             </div>
 
+            {getPackagePrice(product.title, product.price) && <p className="mb-4 text-sm text-muted-foreground tabular">{getPackagePrice(product.title, product.price)}</p>}
             <div className="space-y-2 mb-6 text-sm font-sans text-muted-foreground">
               {product.vendor && (
                 <p>{t('product.manufacturer')}: <span className="text-foreground">{product.vendor}</span></p>
@@ -106,26 +108,26 @@ const ProductDetailPage = () => {
             )}
 
             {/* Quantity + Add to cart */}
-            <div className="flex items-center gap-4 mb-4">
-              <div className="flex items-center border border-border rounded-lg bg-card">
-                <button
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <div className="flex items-center border border-input rounded-sm bg-card">
+                <Button variant="ghost" size="icon"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors rounded-l-lg"
                 >
                   <Minus className="w-4 h-4" />
-                </button>
+                </Button>
                 <span className="w-12 text-center font-semibold font-sans">{quantity}</span>
-                <button
+                <Button variant="ghost" size="icon"
                   onClick={() => setQuantity(quantity + 1)}
                   className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors rounded-r-lg"
                 >
                   <Plus className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
               <Button
                 variant="cta"
                 size="lg"
-                className="flex-1"
+                className="flex-1 min-w-[140px]"
                 onClick={() => addProduct(product, quantity)}
                 disabled={!product.availableForSale}
               >
@@ -133,23 +135,24 @@ const ProductDetailPage = () => {
               </Button>
             </div>
 
-            <button
+            <Button variant="ghost" size="icon"
               onClick={() => toggleFavorite(product.handle)}
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-sans"
             >
               <Heart className={cn('w-5 h-5', fav ? 'fill-primary text-primary' : '')} />
               {t('favorites.title')}
-            </button>
+            </Button>
 
             <p className="mt-4 text-sm text-muted-foreground font-sans">
-              {product.availableForSale ? `✓ ${t('product.inStock')}` : `⚡ ${t('product.shipsFast')}`}
+              {t(stockKey(product.availableForSale, product.totalInventory))}
             </p>
+            <p className="text-sm text-muted-foreground mt-3">{lang === 'lt' ? 'Išsiunčiame per 1–2 darbo dienas. Į paštomatą 3,70 €, virš 60 € nemokamai.' : lang === 'en' ? 'Dispatch in 1–2 business days. Parcel locker 3,70 €, free over 60 €.' : 'Nosūtām 1–2 darba dienās. Pakomāts 3,70 €, virs 60 € bez maksas.'}</p>
           </div>
 
           {/* Mobile sticky add to cart */}
           <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border p-3 flex items-center gap-3 lg:hidden">
             <span className="font-bold text-lg font-sans">{formatPrice(product.price)}</span>
-            <Button variant="cta" className="flex-1" onClick={() => addProduct(product, quantity)} disabled={!product.availableForSale}>
+            <Button variant="cta" className="flex-1 min-w-[140px]" onClick={() => addProduct(product, quantity)} disabled={!product.availableForSale}>
               {t('cart.addToCart')}
             </Button>
           </div>
@@ -159,7 +162,7 @@ const ProductDetailPage = () => {
       {/* Tabs */}
       <div className="mt-12 lg:mt-16">
         <Tabs defaultValue="description">
-          <TabsList className="bg-secondary/50 w-full justify-start">
+          <TabsList className="bg-secondary w-full justify-start h-auto flex-wrap">
             <TabsTrigger value="description" className="text-base font-semibold">{t('product.description')}</TabsTrigger>
             <TabsTrigger value="info" className="text-base font-semibold">{t('product.productInfo')}</TabsTrigger>
           </TabsList>
@@ -192,12 +195,7 @@ const ProductDetailPage = () => {
                     <span className="ml-2 text-foreground">{product.productType}</span>
                   </div>
                 )}
-                {product.tags.length > 0 && (
-                  <div className="sm:col-span-2">
-                    <span className="text-muted-foreground">Tags:</span>
-                    <span className="ml-2 text-foreground">{product.tags.join(', ')}</span>
-                  </div>
-                )}
+
               </div>
             </div>
           </TabsContent>

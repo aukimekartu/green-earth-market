@@ -64,6 +64,7 @@ export interface CatalogProduct {
   price: number;
   currency: string;
   availableForSale: boolean;
+  totalInventory?: number | null;
   variants: CatalogVariant[];
   options: Array<{ name: string; values: string[] }>;
   mainSlugs: string[];
@@ -87,6 +88,8 @@ const CATALOG_QUERY = `
           handle
           vendor
           productType
+      totalInventory
+          totalInventory
           tags
           priceRange { minVariantPrice { amount currencyCode } }
           images(first: 6) { edges { node { url altText } } }
@@ -140,6 +143,7 @@ export function mapProduct(p: ShopifyProduct): CatalogProduct {
     price: parseFloat(node.priceRange.minVariantPrice.amount || '0'),
     currency: node.priceRange.minVariantPrice.currencyCode || 'EUR',
     availableForSale: variants.some(v => v.availableForSale),
+    totalInventory: (node as unknown as { totalInventory?: number | null }).totalInventory,
     variants,
     options: node.options ?? [],
     mainSlugs,
@@ -175,6 +179,7 @@ const PRODUCT_BY_HANDLE_FULL = `
       handle
       vendor
       productType
+      totalInventory
       tags
       priceRange { minVariantPrice { amount currencyCode } }
       images(first: 10) { edges { node { url altText } } }
